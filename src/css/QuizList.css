@@ -1,0 +1,68 @@
+.QuizList-container {
+    margin: 50px 5% 50px 5%;
+}
+
+.QuizList-options {
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.QuizList-searchQuizField {
+    width: 50%;
+    height: 30px;
+    padding-left: 2%;
+    border-color: rgba(0, 0, 0, 0.2);;
+}
+
+.QuizList-newQuizButton {
+    padding: 0px 14px 0px 14px;
+    height: 40px;
+    font-size: 18px;
+    background-color: rgba(251, 188, 5, 0.7);
+    border-radius: 8px;
+    border-width: 0px;
+    justify-content: center;
+    align-items: center;
+}
+
+.QuizList-newQuizButton:hover {
+    background-color: rgba(251, 188, 5, 0.5);
+    cursor: pointer;
+}
+
+.QuizList-listQuizArea {
+    margin-top: 30px;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: rgba(0, 0, 0, 0.2);
+}
+
+.QuizList-quizArea {
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 2% 0px 2%;
+    border-top-width: 1px;
+    border-top-style: solid;
+    border-top-color: rgba(0, 0, 0, 0.2);
+}
+
+.QuizList-iconsArea {
+    width: 60px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.QuizList-icon {
+    height: 20px;
+    width: 20px;
+}
+
+.QuizList-icon:hover {
+    cursor: pointer;
+}

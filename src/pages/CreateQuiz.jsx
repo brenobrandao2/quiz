@@ -50,6 +50,10 @@ const CreateQuiz = () => {
                     <label className="CreateQuiz-questionListTitle">Cards:</label>
                     {mountQuestion()}
                     {mountQuestion()}
+                    {mountQuestion()}
+                    {mountQuestion()}
+                    {mountQuestion()}
+                    {mountQuestion()}
                     <button className="CreateQuiz-addQuestionButton">
                         <img src={PLUS_IMG} alt="plus_img" className="CreateQuiz-icon"/>
                     </button>

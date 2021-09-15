@@ -1,0 +1,83 @@
+.AnswersConfiguration-container {
+    margin: 120px 10% 50px 10%;
+    display: flex;
+    flex-direction: column;
+}
+
+.AnswersConfiguration-pageTitle {
+    align-self: flex-start;
+}
+
+.AnswersConfiguration-possibilityComponent {
+    padding: 10px 25px 10px 25px;
+    margin-bottom: 22px;
+    border-radius: 8px;
+    background-color: rgba(251, 188, 5, 0.7);
+}
+
+.AnswersConfiguration-titleArea {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.AnswersConfiguration-title {
+    font-weight: 600;
+}
+
+.AnswersConfiguration-answerArea {
+    display: flex;
+    flex-direction: row;
+    padding: 5px 0px 10px 0px;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: rgba(0, 0, 0, 0.2);
+}
+
+.AnswersConfiguration-label {
+    width: 50%;
+    padding-right: 10px;
+}
+
+.AnswersConfiguration-label2 {
+    width: 50%;
+    padding-left: 10px;
+}
+
+.AnswersConfiguration-inputArea {
+    display: flex;
+    flex: 1;
+    padding: 0px 0px 10px 0px;
+    margin-top: 14px;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 18;
+    font-weight: 500;
+}
+
+.AnswersConfiguration-input {
+    height: 40px;
+    width: 70%;
+    background-color: #E8E8E8;
+    border-width: 0px;
+    border-radius: 8px;
+
+}
+
+.AnswersConfiguration-button {
+    padding: 0px 20px 0px 20px;
+    height: 40px;
+    margin-top: 40px;
+    font-size: 18px;
+    background-color: rgba(251, 188, 5, 0.7);
+    border-radius: 8px;
+    border-width: 0px;
+    justify-content: center;
+    align-items: center;
+    align-self: flex-end;
+}
+
+.AnswersConfiguration-button:hover {
+    background-color: rgba(251, 188, 5, 0.5);
+    cursor: pointer;
+}

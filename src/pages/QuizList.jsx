@@ -9,7 +9,7 @@ import COPY_IMG from '../assets/copy.png'
 import { deleteById, getAll } from '../repository/quiz.repository.js'
 import dayjs from 'dayjs'
 
-const BASE_URL_CLIENT_QUIZ = 'http://137.184.132.242/:3002/'
+const BASE_URL_CLIENT_QUIZ = 'http://137.184.132.242/:9001/'
 
 const QuizList = (props) => {
     const [searchQuizText, setSearchQuizText] = useState('')

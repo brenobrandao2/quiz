@@ -1,5 +1,5 @@
 .AnswersConfiguration-container {
-    margin: 120px 10% 50px 10%;
+    margin: 80px 10% 50px 10%;
     display: flex;
     flex-direction: column;
 }
@@ -10,9 +10,11 @@
 
 .AnswersConfiguration-possibilityComponent {
     padding: 10px 25px 10px 25px;
+    margin-top: 10px;
     margin-bottom: 22px;
     border-radius: 8px;
-    background-color: rgba(251, 188, 5, 0.7);
+    /* background-color: rgba(251, 188, 5, 0.4); */
+    box-shadow: 0px 0px 5px #888888;
 }
 
 .AnswersConfiguration-titleArea {
@@ -28,7 +30,7 @@
 .AnswersConfiguration-answerArea {
     display: flex;
     flex-direction: row;
-    padding: 5px 0px 10px 0px;
+    padding: 15px 0px 10px 0px;
     border-bottom-width: 1px;
     border-bottom-style: solid;
     border-bottom-color: rgba(0, 0, 0, 0.2);
@@ -48,7 +50,7 @@
     display: flex;
     flex: 1;
     padding: 0px 0px 10px 0px;
-    margin-top: 14px;
+    margin-top: 24px;
     justify-content: space-between;
     align-items: center;
     font-size: 18;
@@ -58,7 +60,7 @@
 .AnswersConfiguration-input {
     height: 40px;
     width: 70%;
-    background-color: #E8E8E8;
+    background-color: rgba(251, 188, 5, 0.5);
     border-width: 0px;
     border-radius: 8px;
 
@@ -66,10 +68,11 @@
 
 .AnswersConfiguration-button {
     padding: 0px 20px 0px 20px;
+    position: fixed;
     height: 40px;
-    margin-top: 40px;
+    bottom: 20px;
     font-size: 18px;
-    background-color: rgba(251, 188, 5, 0.7);
+    background-color: rgba(251, 188, 5, 1);
     border-radius: 8px;
     border-width: 0px;
     justify-content: center;
@@ -80,4 +83,9 @@
 .AnswersConfiguration-button:hover {
     background-color: rgba(251, 188, 5, 0.5);
     cursor: pointer;
+}
+
+.AnswersConfiguration-codigo {
+    text-align: end;
+    color: rgba(0, 0, 0, 0.5);
 }

@@ -1,0 +1,7 @@
+input {
+    padding: 0px 2% 0px 2%;
+}
+
+input:focus {
+    outline: none;
+}

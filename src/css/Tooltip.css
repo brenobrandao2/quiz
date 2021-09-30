@@ -10,7 +10,7 @@
 
 .Tooltip-main {
     display: flex;
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: rgba(0, 0, 0, 0.6);
     align-self: center;
     align-items: center;
     padding: 10px 20px 10px 20px;

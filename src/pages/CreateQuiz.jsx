@@ -8,6 +8,8 @@ import DELETE_IMG from '../assets/delete.png'
 
 import { getById, insert, update, Quiz } from '../repository/quiz.repository'
 import { Pergunta } from '../repository/pergunta.repository'
+import { quizValidation } from '../utils/quizValidation';
+import Tooltip from '../components/Tooltip'
 
 const CreateQuiz = (props) => {
     const [loading, setLoading] = useState(false)
@@ -16,6 +18,24 @@ const CreateQuiz = (props) => {
     const [pageTitle, setPageTitle] = useState('')
     const [pageSubtitle, setPageSubtitle] = useState('')
     const history = useHistory()
+    
+    const [tooltipProps, setTooltipProps] = useState({
+        text: '',
+        show: false
+    })
+
+    const showTooltip = (text) => {
+        setTooltipProps({
+            text,
+            show: true
+        })
+        setTimeout(() => {
+            setTooltipProps({
+                text: '',
+                show: false
+            })
+        },10000)
+    }
 
     const loadQuiz = async (quiz_id) => {
         setLoading(true)
@@ -113,6 +133,12 @@ const CreateQuiz = (props) => {
         newQuiz.titulo = pageTitle
         newQuiz.subtitulo = pageSubtitle
 
+        const validation = quizValidation(newQuiz)
+        if (validation){
+            showTooltip(validation)
+            return
+        }
+
         try {
             if (quiz._id) await update(newQuiz)
             else await insert(newQuiz)
@@ -159,6 +185,7 @@ const CreateQuiz = (props) => {
                     </div>
                 </form>
             }
+            <Tooltip {...tooltipProps}/>
         </div>
     );
 };

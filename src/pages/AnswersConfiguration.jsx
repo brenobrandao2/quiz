@@ -7,6 +7,8 @@ const css = 'AnswersConfiguration-'
 const AnswersConfiguration = (props) => {
     const [quiz, setQuiz] = useState(new Quiz())
     const [flows, setFlows] = useState({})
+    const [checkedFlows, setCheckedFlows] = useState([])
+    const [redirGeral, setRedirGeral] = useState('')
     const history = useHistory()
 
     useEffect(() => {
@@ -93,10 +95,34 @@ const AnswersConfiguration = (props) => {
         history.push('/create-quiz', { quiz: newQuiz})
     }
 
+    const toggleCheck = (status, key) => {
+        const list = [...checkedFlows]
+        if (status) {
+            list.push(key)
+        } else {
+            const index = list.indexOf(key)
+            list.splice(index, 1)
+        }
+        console.log(list)
+        setCheckedFlows(list)
+    }
+
+    const insertRedir = () => {
+        const newFlows = {...flows}
+
+        checkedFlows.forEach(item => {
+            newFlows[item].redirecionamento = redirGeral
+        })
+
+        setFlows(newFlows)
+        setRedirGeral('')
+    }
+
     const possibilityComponent = () => {
         return Object.keys(flows).map((key, index) => {
             return(
                 <div key={index} className={`${css}possibilityComponent`}>
+                    <input type="checkbox" className={`${css}checkbox`} onChange={(e) => toggleCheck(e.target.checked, key)} />
                     <div className={`${css}titleArea`}>
                         <label className={`${css}title`}>Pergunta</label>
                         <label className={`${css}title`}>Resposta</label>
@@ -126,6 +152,11 @@ const AnswersConfiguration = (props) => {
     return (
         <div className={`${css}container`}>
             <h3 className={`${css}pageTitle`}>Configuração dos resultados - {quiz.nome}</h3>
+            <div className={`${css}redir-multi`}>
+                <label>Redirecionamento:</label>
+                <input type="text" className={`${css}input`} value={redirGeral} onChange={(e) => setRedirGeral(e.target.value)} />
+                <input type="button" className={`${css}insert`} value="Inserir" onClick={() => insertRedir()} />
+            </div>
             {possibilityComponent()}
             <input type="button" value="Salvar" className={`${css}button`} onClick={() => saveConfigurations()}/>
         </div>

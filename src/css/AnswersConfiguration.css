@@ -6,9 +6,12 @@
 
 .AnswersConfiguration-pageTitle {
     align-self: flex-start;
+    text-align: start;
 }
 
 .AnswersConfiguration-possibilityComponent {
+    display: flex;
+    flex-direction: column;
     padding: 10px 25px 10px 25px;
     margin-top: 10px;
     margin-bottom: 22px;
@@ -88,4 +91,33 @@
 .AnswersConfiguration-codigo {
     text-align: end;
     color: rgba(0, 0, 0, 0.5);
+}
+
+.AnswersConfiguration-checkbox {
+    align-self: flex-end;
+    height: 18px;
+    width: 18px;
+}
+
+.AnswersConfiguration-redir-multi {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.AnswersConfiguration-insert {
+    padding: 0px 20px 0px 20px;
+    height: 40px;
+    font-size: 18px;
+    background-color: rgba(251, 188, 5, 1);
+    border-radius: 8px;
+    border-width: 0px;
+    justify-content: center;
+    align-items: center;
+}
+
+.AnswersConfiguration-insert:hover {
+    background-color: rgba(251, 188, 5, 0.5);
+    cursor: pointer;
 }

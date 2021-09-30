@@ -2,7 +2,6 @@ import React from 'react';
 import '../css/Tooltip.css'
 
 const Tooltip = (props) => {
-    console.log(props)
     return (
         <div className="Tooltip-container" style={{ display: props.show ? 'flex' : 'none' }}>
             <div className="Tooltip-main">

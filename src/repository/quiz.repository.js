@@ -33,7 +33,7 @@ export const getAll = async () => {
             'Content-Type': 'application/json',
         },
     }
-    const allQuiz = await fetch('http://localhost:3000/quiz', opt).then(response => response.json())
+    const allQuiz = await fetch('http://137.184.132.242:3001/quiz', opt).then(response => response.json())
     
     return allQuiz.map(quiz => {
         const {_id, nome, titulo, subtitulo, imagem, duplicidade, perguntas, cardFinal, createdAt, lastModified, fluxos} = quiz
@@ -49,7 +49,7 @@ export const getById = async (_id) => {
         },
         body: JSON.stringify({key: _id})
     }
-    const allQuiz = await fetch('http://localhost:3000/quiz/getById', opt).then(response => response.json())
+    const allQuiz = await fetch('http://137.184.132.242:3001/quiz/getById', opt).then(response => response.json())
     
     return allQuiz.map(quiz => {
         const {_id, nome, titulo, subtitulo, imagem, duplicidade, perguntas, cardFinal, createdAt, lastModified, fluxos} = quiz
@@ -67,7 +67,7 @@ export const deleteById = async (_id) => {
         body: JSON.stringify({ _id })
     }
     
-    await fetch('http://localhost:3000/quiz/deleteById', opt).then(async response => console.log(await response.json()))
+    await fetch('http://137.184.132.242:3001/quiz/deleteById', opt).then(async response => console.log(await response.json()))
 }
 
 export const insert = async (quiz) => {
@@ -79,7 +79,7 @@ export const insert = async (quiz) => {
         body: JSON.stringify(quiz)
     }
     
-    await fetch('http://localhost:3000/quiz/insert', opt).then(async response => console.log(await response.json()))
+    await fetch('http://137.184.132.242:3001/quiz/insert', opt).then(async response => console.log(await response.json()))
 }
 
 export const update = async (quiz) => {
@@ -91,7 +91,7 @@ export const update = async (quiz) => {
         body: JSON.stringify(quiz)
     }
     
-    await fetch('http://localhost:3000/quiz/update', opt).then(async response => console.log(await response.json()))
+    await fetch('http://137.184.132.242:3001/quiz/update', opt).then(async response => console.log(await response.json()))
 }
 
 

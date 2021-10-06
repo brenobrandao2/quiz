@@ -1,0 +1,103 @@
+.UsersList-container {
+    margin: 120px 5% 50px 5%;
+}
+
+.UsersList-options {
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.UsersList-searchUserField {
+    width: 50%;
+    height: 30px;
+    padding-left: 2%;
+    border-color: rgba(0, 0, 0, 0.2);;
+}
+
+.UsersList-newUserButton {
+    padding: 5px 14px 0px 14px;
+    height: 30px;
+    font-size: 18px;
+    background-color: rgba(251, 188, 5, 0.7);
+    border-radius: 8px;
+    border-width: 0px;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+}
+
+.UsersList-newUserButton:hover {
+    background-color: rgba(251, 188, 5, 0.5);
+    cursor: pointer;
+}
+
+.UsersList-listUsersArea {
+    margin-top: 30px;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: rgba(0, 0, 0, 0.2);
+}
+
+.UsersList-userArea {
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 2% 0px 2%;
+    border-top-width: 1px;
+    border-top-style: solid;
+    border-top-color: rgba(0, 0, 0, 0.2);
+}
+
+.UsersList-nome {
+    width: 60%;
+    text-align: start;
+}
+
+.UsersList-iconsArea {
+    display: flex;
+    width: 6%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.UsersList-icon {
+    height: 20px;
+    width: 20px;
+    margin-right: 15px;
+}
+
+.UsersList-icon:hover {
+    cursor: pointer;
+}
+
+.UsersList-LoaderArea {
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 2% 0px 2%;
+    border-top-width: 1px;
+    border-top-style: solid;
+    border-top-color: rgba(0, 0, 0, 0.2);
+}
+
+.UsersList-loader {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid rgba(251, 188, 5, 0.7);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 2s linear infinite;
+    margin: 10px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }

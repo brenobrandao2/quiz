@@ -24,9 +24,21 @@ const CreateQuestion = (props) => {
     },[props])
 
     const addNewAnswer = () => {
-        const result = [...newAnswers]
-        result.push(new Resposta())
-        setNewAnswers(result    )
+        if (quiz.fluxos) {
+            const res = window.confirm('Os redirecionamentos já foram definidos. Ao adicionar uma resposta, os fluxos serão recalculados e os redirecionamentos atuais serão excluidos. Deseja continuar?')
+            if (res === true) {
+                const result = [...newAnswers]
+                result.push(new Resposta())
+                setNewAnswers(result)
+                const newQuiz = {...quiz}
+                newQuiz.fluxos = undefined
+                setQuiz(newQuiz)
+            }
+        } else {
+            const result = [...newAnswers]
+            result.push(new Resposta())
+            setNewAnswers(result)
+        }
     }
 
     const updateAnswer = (value, index) => {
@@ -35,12 +47,30 @@ const CreateQuestion = (props) => {
         setNewAnswers(result)
     }
 
+    const deleteAnswer = (index) => {
+        if (quiz.fluxos) {
+            const res = window.confirm('Os redirecionamentos já foram definidos. Ao exluir uma resposta, os fluxos serão recalculados e os redirecionamentos atuais serão excluidos. Deseja continuar?')
+            if (res === true) {
+                const result = [...newAnswers]
+                result.splice(index, 1)
+                setNewAnswers(result)
+                const newQuiz = {...quiz}
+                newQuiz.fluxos = undefined
+                setQuiz(newQuiz)
+            }
+        } else {
+            const result = [...newAnswers]
+            result.splice(index, 1)
+            setNewAnswers(result)
+        }
+    }
+
     const mountAnswer = () => {       
         return newAnswers.map((resposta, index) => {
             return(
                 <div key={index} className="CreateQuestion-answerArea">
                     <input className="CreateQuestion-inputAnswer" value={resposta.texto} onChange={(e) => updateAnswer(e.target.value, index)}></input>
-                    <img src={DELETE_IMG} alt="delete_img" className="CreateQuestion-icon"/>
+                    {newAnswers.length > 1 && <img src={DELETE_IMG} alt="delete_img" className="CreateQuestion-icon" onClick={() => deleteAnswer(index)} />}
                 </div>
             )
         })

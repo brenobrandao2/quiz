@@ -18,7 +18,6 @@
     background-color: #E8E8E8;
     border-width: 0px;
     border-radius: 8px;
-
 }
 
 .CreateQuiz-questionList {
@@ -128,4 +127,26 @@
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+  }
+
+  .CreateQuiz-imageArea {
+      display: flex;
+      flex-direction: row;
+      padding: 0px 2% 0px 2%;
+      align-items: center;
+      justify-content: space-between;
+      height: 40px;
+      width: 70%;
+      background-color: #E8E8E8;
+      border-width: 0px;
+      border-radius: 8px;
+  }
+
+  .CreateQuiz-image { 
+      height: 30px;
+      transition: .2s;
+  }
+
+  .CreateQuiz-image:hover {
+      transform: scale(5);
   }

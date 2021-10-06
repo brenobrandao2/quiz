@@ -51,7 +51,7 @@ const AnswersConfiguration = (props) => {
 
                 for (var answerIndex in remainingAnswers) {
                     for (var i = 0; i < allAnswers[0].length; i++) {
-                        result.push([allAnswers[0][i]].concat(remainingAnswers[answerIndex]));
+                        result.push([allAnswers[0][i]].concat(remainingAnswers[answerIndex]))
                     }
                   }
                 return result
@@ -62,6 +62,7 @@ const AnswersConfiguration = (props) => {
             const newFlows = {}
 
             for (const flow of allFlows) {
+                console.log('Xxxx - > ', flow)
                 const codigos = flow.map(item => item.codigo)
                 const codigo = codigos.join("")
                 

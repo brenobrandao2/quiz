@@ -8,14 +8,35 @@ import DELETE_IMG from '../assets/delete.png'
 import COPY_IMG from '../assets/copy.png'
 import { deleteById, getAll } from '../repository/quiz.repository.js'
 import dayjs from 'dayjs'
+import { useUser } from '../contexts/AuthContext'
+import Tooltip from '../components/Tooltip'
 
-const BASE_URL_CLIENT_QUIZ = 'http://137.184.132.242/:9001/'
+const BASE_URL_CLIENT_QUIZ = 'http://192.168.25.10:3002/'
 
 const QuizList = (props) => {
     const [searchQuizText, setSearchQuizText] = useState('')
     const [completeListQuiz, setCompleteListQuiz] = useState([])
     const [listShowQuiz, setListShowQuiz] = useState([])
     const [loading, setLoading] = useState(false)
+    const [user, ,] = useUser()
+
+    const [tooltipProps, setTooltipProps] = useState({
+        text: '',
+        show: false
+    })
+
+    const showTooltip = (text, duration) => {
+        setTooltipProps({
+            text,
+            show: true
+        })
+        setTimeout(() => {
+            setTooltipProps({
+                text: '',
+                show: false
+            })
+        },duration)
+    }
 
     useEffect(() => {
         reloadQuizList()
@@ -30,9 +51,13 @@ const QuizList = (props) => {
     }
 
     const deleteQuiz = async (id) => {
-        await deleteById(id)
-        setListShowQuiz([])
-        reloadQuizList()
+        const password = prompt('Digite sua senha para excluir o quiz: ')
+        if (password === null) return
+        else if (password === user.senha) {
+            await deleteById(id)
+            setListShowQuiz([])
+            reloadQuizList()
+        } else alert('Senha incorreta!')
     }
       
     useEffect(() => {
@@ -56,7 +81,10 @@ const QuizList = (props) => {
                                 <h4 className="QuizList-nome">{quiz.nome}</h4>
                                 <p className="QuizList-quizDate">{dayjs(quiz.lastModified).format('DD/MM/YYYY HH:mm:ss')}</p>
                                 <div className="QuizList-iconsArea">
-                                    <button type="button" className="QuizList-copyQuizUrl" onClick={() => copy(BASE_URL_CLIENT_QUIZ+quiz._id)}>
+                                    <button type="button" className="QuizList-copyQuizUrl" onClick={() => {
+                                        copy(BASE_URL_CLIENT_QUIZ+quiz._id)
+                                        showTooltip('Endereço copiado!', 3000)
+                                        }}>
                                         <p>copiar endereço</p>
                                         <img src={COPY_IMG} alt="copy_img" className="QuizList-iconCopy" />
                                     </button>
@@ -72,6 +100,7 @@ const QuizList = (props) => {
                     </div>
                 }
             </div>
+            <Tooltip {...tooltipProps}/>
         </div>
     );
 };

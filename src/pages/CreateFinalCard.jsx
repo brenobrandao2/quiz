@@ -7,17 +7,35 @@ const CreateFinalCard = (props) => {
     const [quiz, setQuiz] = useState()
     const [title, setTitle] = useState('')
     const [subtitle, setSubtitle] = useState('')
+    const [image, setImage] = useState('')
     const [buttonTxt, setButtonTxt] = useState('')
+    const [preview, setPreview] = useState()
 
     useEffect(() => {
         const quiz = props.location.state?.quiz || {}
         const cardFinal = quiz?.cardFinal || new CardFinal()
-        const { titulo, subtitulo, botao } = cardFinal
+        const { titulo, subtitulo, botao, imagem } = cardFinal
         setTitle(titulo)
         setSubtitle(subtitulo)
         setButtonTxt(botao)
+        setImage(imagem)
+        if (imagem && imagem.type) {
+            getPreview(imagem)
+        } else if (imagem && imagem.mimetype) {
+            setPreview(`data:${imagem.mimetype};base64,${imagem.buffer}`)
+        }
         setQuiz(quiz)
     },[props.location.state])
+
+    const getPreview = (imagem) => {
+        if (imagem) {
+            const fileReader = new FileReader()
+            fileReader.readAsDataURL(imagem)
+            fileReader.addEventListener('load', (e) => {
+                setPreview(e.target.result)
+            })
+        }
+    }
 
     const saveFinalCard = () => {
         const newQuiz = {...quiz}
@@ -25,6 +43,7 @@ const CreateFinalCard = (props) => {
         newQuiz.cardFinal.titulo = title
         newQuiz.cardFinal.subtitulo = subtitle
         newQuiz.cardFinal.botao = buttonTxt
+        newQuiz.cardFinal.imagem = image
         
         props.history.push('/create-quiz', { quiz })
     }
@@ -46,7 +65,13 @@ const CreateFinalCard = (props) => {
                 </div>
                 <div className="CreateFinalCard-inputArea">
                     <label>Imagem:</label>
-                    <input type="file" className="CreateFinalCard-input" onChange={(e) => quiz.imagem = e.target.files[0]}></input>
+                    <div className="CreateQuiz-imageArea">
+                        <input type="file" name="image" onChange={(e) => {
+                            setImage(e.target.files[0])
+                            getPreview(e.target.files[0])
+                            }}/>
+                        <img alt='quiz_img' src={preview} className="CreateQuiz-image"/>
+                    </div>
                 </div>
                 <div className="CreateFinalCard-buttonArea">
                     <input type="button" className="CreateFinalCard-button" value="Salvar" onClick={() => saveFinalCard()}></input>

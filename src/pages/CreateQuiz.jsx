@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router';
+import React, { useEffect, useState } from 'react'
+import { useHistory } from 'react-router'
 import '../css/CreateQuiz.css'
 import '../css/global.css'
 
@@ -17,6 +17,9 @@ const CreateQuiz = (props) => {
     const [quizName, setQuizName] = useState('')
     const [pageTitle, setPageTitle] = useState('')
     const [pageSubtitle, setPageSubtitle] = useState('')
+    const [image, setImage] = useState('')
+    const [token, setToken] = useState('')
+    const [preview, setPreview] = useState()
     const history = useHistory()
     
     const [tooltipProps, setTooltipProps] = useState({
@@ -24,7 +27,7 @@ const CreateQuiz = (props) => {
         show: false
     })
 
-    const showTooltip = (text) => {
+    const showTooltip = (text, duration = 10000) => {
         setTooltipProps({
             text,
             show: true
@@ -34,18 +37,18 @@ const CreateQuiz = (props) => {
                 text: '',
                 show: false
             })
-        },10000)
+        },duration)
     }
 
-    const loadQuiz = async (quiz_id) => {
-        setLoading(true)
-        const listQuiz = await getById(quiz_id)
-        const quiz = listQuiz[0]
-        setQuizName(quiz.nome)
-        setPageTitle(quiz.titulo)
-        setPageSubtitle(quiz.subtitulo)
-        setQuiz(quiz)
-        setLoading(false)
+    const getPreview = (imagem) => {
+        if (imagem) {
+            console.log(imagem)
+            const fileReader = new FileReader()
+            fileReader.readAsDataURL(imagem)
+            fileReader.addEventListener('load', (e) => {
+                setPreview(e.target.result)
+            })
+        }
     }
 
     const updatedQuiz = () => {
@@ -53,28 +56,53 @@ const CreateQuiz = (props) => {
         newQuiz.nome = quizName
         newQuiz.titulo = pageTitle
         newQuiz.subtitulo = pageSubtitle
+        newQuiz.imagem = image
+        newQuiz.token = token
         return newQuiz
     } 
 
     useEffect(() => {
         const { quiz, id_quiz } = props.location.state || {}
+
+        const loadQuiz = async (quiz_id) => {
+            setLoading(true)
+            const listQuiz = await getById(quiz_id)
+            const quiz = listQuiz[0]
+            console.log(quiz)
+            setQuizName(quiz.nome)
+            setPageTitle(quiz.titulo)
+            setPageSubtitle(quiz.subtitulo)
+            setImage(quiz.imagem)
+            if (quiz.imagem.type) {
+                getPreview(quiz.imagem)
+            } else if (quiz.imagem.mimetype) {
+                setPreview(`data:${quiz.imagem.mimetype};base64,${quiz.imagem.buffer}`)
+            }
+            setToken(quiz.token)
+            setQuiz(quiz)
+            setLoading(false)
+        }
+
         if (quiz) {
             console.log(quiz)
-            const { nome, titulo, subtitulo } = quiz
+            const { nome, titulo, subtitulo, token, imagem } = quiz
             setQuizName(nome)
             setPageTitle(titulo)
             setPageSubtitle(subtitulo)
+            if (imagem) {
+                setImage(imagem)
+                if (quiz.imagem.type) {
+                    getPreview(quiz.imagem)
+                } else if (quiz.imagem.mimetype) {
+                    setPreview(`data:${quiz.imagem.mimetype};base64,${quiz.imagem.buffer}`)
+                }
+            }
+            setToken(token)
             setQuiz(quiz)
         }
         else if (id_quiz) 
             loadQuiz(id_quiz)
     }, [props.location.state])
-    
-    // const setQuestion = (index, question) => {
-    //     const newQuiz = {...quiz}
-    //     newQuiz.perguntas[index] = question
-    //     setQuiz(newQuiz)
-    // }
 
 
     const mountQuestion = () => {    
@@ -94,7 +122,7 @@ const CreateQuiz = (props) => {
                     <h4>{pergunta.texto}</h4>
                     <div className="CreateQuiz-iconsArea">
                         <img src={PEN_IMG} alt="pen_img" className="CreateQuiz-icon" onClick={() => updateQuestion()}/>
-                        <img src={DELETE_IMG} alt="delete_img" className="CreateQuiz-icon"/>
+                        <img src={DELETE_IMG} alt="delete_img" className="CreateQuiz-icon" onClick={() => deleteQuestion(index)} />
                     </div>
                 </div>
             )
@@ -102,11 +130,40 @@ const CreateQuiz = (props) => {
     }
 
     const addNewQuestion = () => {
-        const newQuiz = updatedQuiz()
-        newQuiz.perguntas.push(new Pergunta())
-        setQuiz(newQuiz)
+        if (quiz.fluxos) {
+            const res = window.confirm('Os redirecionamentos já foram definidos. Ao adicionar uma pergunta, os fluxos serão recalculados e os redirecionamentos atuais serão excluidos. Deseja continuar?')
+            if (res === true) {
+                const newQuiz = updatedQuiz()
+                newQuiz.perguntas.push(new Pergunta())
+                newQuiz.fluxos = undefined
+                setQuiz(newQuiz)
+            }
+        } else {
+            const newQuiz = updatedQuiz()
+            newQuiz.perguntas.push(new Pergunta())
+            setQuiz(newQuiz)
+        }
     }
 
+    const deleteQuestion = (index) => {
+        const newQuiz = updatedQuiz()
+        if (newQuiz.perguntas.length > 2) {
+            if (quiz.fluxos) {
+                const res = window.confirm('Os redirecionamentos já foram definidos. Ao exluir uma pergunta, os fluxos serão recalculados e os redirecionamentos atuais serão excluidos. Deseja continuar?')
+                if (res === true) {
+                    newQuiz.perguntas.splice(index, 1)
+                    newQuiz.fluxos = undefined
+                    setQuiz(newQuiz)
+                }
+            } else {
+                newQuiz.perguntas.splice(index, 1)
+                setQuiz(newQuiz)
+            }
+        }
+        else {
+            showTooltip('Você atingiu a quantidade mínima de perguntas', 4000)
+        }
+    }
     
     const mountFinalCard = () => {
         const updateFinalCard = () => {
@@ -128,10 +185,7 @@ const CreateQuiz = (props) => {
     }
 
     const saveQuiz = async () => {
-        const newQuiz = {...quiz}
-        newQuiz.nome = quizName
-        newQuiz.titulo = pageTitle
-        newQuiz.subtitulo = pageSubtitle
+        const newQuiz = updatedQuiz()
 
         const validation = quizValidation(newQuiz)
         if (validation){
@@ -170,8 +224,18 @@ const CreateQuiz = (props) => {
                         <input value={pageSubtitle} className="CreateQuiz-input" onChange={(e) => setPageSubtitle(e.target.value)}/>
                     </div>
                     <div className="CreateQuiz-inputArea">
+                        <label>Token:</label>
+                        <input value={token} className="CreateQuiz-input" onChange={(e) => setToken(e.target.value)}/>
+                    </div>
+                    <div className="CreateQuiz-inputArea">
                         <label>Imagem:</label>
-                        <input type="file" className="CreateQuiz-input" onChange={(e) => quiz.imagem = e.target.files[0]}></input>
+                        <div className="CreateQuiz-imageArea">
+                            <input type="file" name="image" onChange={(e) => { 
+                                setImage(e.target.files[0])
+                                getPreview(e.target.files[0])
+                                }} />
+                            <img alt='quiz_img' src={preview} className="CreateQuiz-image"/>
+                        </div>
                     </div>
                     <div className="CreateQuiz-questionList">
                         <label className="CreateQuiz-questionListTitle">Cards:</label>

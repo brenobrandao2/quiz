@@ -11,7 +11,7 @@ import dayjs from 'dayjs'
 import { useUser } from '../contexts/AuthContext'
 import Tooltip from '../components/Tooltip'
 
-const BASE_URL_CLIENT_QUIZ = 'http://192.168.25.10:3002/'
+const BASE_URL_CLIENT_QUIZ = 'http://137.184.132.242:3002/'
 
 const QuizList = (props) => {
     const [searchQuizText, setSearchQuizText] = useState('')

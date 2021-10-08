@@ -16,7 +16,7 @@ export const insert = async (user) => {
         body: JSON.stringify(user)
     }
     
-    await fetch('http://137.184.132.242:3001/user/insert', opt).then(async response => console.log(await response.json()))
+    await fetch('http://159.203.187.163:3001/user/insert', opt).then(async response => console.log(await response.json()))
 }
 
 export const update = async (user) => {
@@ -28,7 +28,7 @@ export const update = async (user) => {
         body: JSON.stringify(user)
     }
     
-    await fetch('http://137.184.132.242:3001/user/update', opt).then(async response => console.log(await response.json()))
+    await fetch('http://159.203.187.163:3001/user/update', opt).then(async response => console.log(await response.json()))
 }
 
 export const getAll = async () => {
@@ -41,7 +41,7 @@ export const getAll = async () => {
 
     let allUsers = []
     try {
-        allUsers = await fetch('http://137.184.132.242:3001/user', opt).then(response => response.json())
+        allUsers = await fetch('http://159.203.187.163:3001/user', opt).then(response => response.json())
     } catch(error) {
         console.log('Falha ao buscar dados')
     }
@@ -62,7 +62,7 @@ export const deleteById = async (_id) => {
         body: JSON.stringify({ _id })
     }
     
-    await fetch('http://137.184.132.242:3001/user/deleteById', opt).then(async response => console.log(await response.json()))
+    await fetch('http://159.203.187.163:3001/user/deleteById', opt).then(async response => console.log(await response.json()))
 }
 
 export const tryLogin = async (email, senha) => {
@@ -76,7 +76,7 @@ export const tryLogin = async (email, senha) => {
     
     let result
     try {
-        result = await fetch('http://137.184.132.242:3001/user/login', opt).then(async response => await response.json())
+        result = await fetch('http://159.203.187.163:3001/user/login', opt).then(async response => await response.json())
         return {...result}
     } catch (error) {
         console.log('Falha ao realizar login - ', error)

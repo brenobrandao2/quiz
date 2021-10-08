@@ -1,7 +1,6 @@
-import React from 'react';
-import { useEffect, useState } from 'react/cjs/react.development';
+import React, { useEffect, useState } from 'react';
 import '../css/CreateFinalCard.css'
-import { CardFinal } from '../repository/cardFinal.repository';
+import { CardFinal } from '../repository/cardFinal.repository.js';
 
 const CreateFinalCard = (props) => {
     const [quiz, setQuiz] = useState()

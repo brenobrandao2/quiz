@@ -24,10 +24,13 @@ const UsersList = (props) => {
         setLoading(false)
     }
 
-    const deleteQuiz = async (id) => {
-        await deleteById(id)
-        setListShowUsers([])
-        reloadUsersList()
+    const deleteUser = async (id) => {
+        const res = window.confirm('Clique em OK para confirmar a exclusão do usuário')
+        if (res === true) {
+            await deleteById(id)
+            setListShowUsers([])
+            reloadUsersList()
+        }
     }
       
     useEffect(() => {
@@ -51,7 +54,7 @@ const UsersList = (props) => {
                                 <h4 className="UsersList-nome">{user.nome}</h4>
                                 <div className="UsersList-iconsArea">
                                     <img src={PEN_IMG} alt="pen_img" className="UsersList-icon" onClick={() => props.history.push('create-user', { userInfo: user })}/>
-                                    <img src={DELETE_IMG} alt="delete_img" className="UsersList-icon" onClick={() => deleteQuiz(user._id)}/> 
+                                    <img src={DELETE_IMG} alt="delete_img" className="UsersList-icon" onClick={() => deleteUser(user._id)}/> 
                                 </div>
                             </div>
                         )

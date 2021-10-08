@@ -65,7 +65,7 @@ const CreateUser = (props) => {
             console.log(userInfo._id)
             if (userInfo._id) await update(newUser)
             else await insert(newUser)
-            updateLocalUser()
+            updateLocalUser(newUser)
             history.push('/users')
         } catch (error) {
             alert(`Falha ao registrar usuário \n ${error}`)
@@ -85,15 +85,15 @@ const CreateUser = (props) => {
         <div className='CreateUser-container'>
             <div className="CreateUser-inputArea">
                 <label>Nome:</label>
-                <input value={nome} className="CreateUser-input" onChange={(e) => setNome(e.target.value)}/>
+                <input value={nome} autoComplete="on" name="name" type="text" className="CreateUser-input" onChange={(e) => setNome(e.target.value)}/>
             </div>
             <div className="CreateUser-inputArea">
                 <label>E-mail:</label>
-                <input disabled={notNew} value={email} className="CreateUser-input" onChange={(e) => setEmail(e.target.value)}/>
+                <input autoComplete="on" name="email" type="email" disabled={notNew} value={email} className="CreateUser-input" onChange={(e) => setEmail(e.target.value)}/>
             </div>
             <div className="CreateUser-inputArea">
                 <label>Senha:</label>
-                <input value={senha} className="CreateUser-input" onChange={(e) => setSenha(e.target.value)}/>
+                <input autoComplete="on" name="password" type="password" value={senha} className="CreateUser-input" onChange={(e) => setSenha(e.target.value)}/>
             </div>
             <input type="button" value="Salvar" className="CreateUser-button" onClick={() => saveUserInfo()} />
             <Tooltip {...tooltipProps}/>

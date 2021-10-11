@@ -73,9 +73,9 @@ const CreateQuiz = (props) => {
             setPageTitle(quiz.titulo)
             setPageSubtitle(quiz.subtitulo)
             setImage(quiz.imagem)
-            if (quiz.imagem.type) {
+            if (quiz?.imagem?.type) {
                 getPreview(quiz.imagem)
-            } else if (quiz.imagem.mimetype) {
+            } else if (quiz?.imagem?.mimetype) {
                 setPreview(`data:${quiz.imagem.mimetype};base64,${quiz.imagem.buffer}`)
             }
             setToken(quiz.token)
@@ -230,7 +230,7 @@ const CreateQuiz = (props) => {
                     <div className="CreateQuiz-inputArea">
                         <label>Imagem:</label>
                         <div className="CreateQuiz-imageArea">
-                            <input type="file" name="image" onChange={(e) => { 
+                            <input type="file" accept="image/png, image/jpeg" name="image" onChange={(e) => { 
                                 setImage(e.target.files[0])
                                 getPreview(e.target.files[0])
                                 }} />

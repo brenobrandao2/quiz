@@ -65,7 +65,7 @@ const CreateFinalCard = (props) => {
                 <div className="CreateFinalCard-inputArea">
                     <label>Imagem:</label>
                     <div className="CreateQuiz-imageArea">
-                        <input type="file" name="image" onChange={(e) => {
+                        <input type="file" accept="image/png, image/jpeg" name="image" onChange={(e) => {
                             setImage(e.target.files[0])
                             getPreview(e.target.files[0])
                             }}/>

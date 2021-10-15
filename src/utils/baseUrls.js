@@ -1,4 +1,4 @@
-const lam_server = 'http://159.203.187.163'
+const lam_server = 'https://159.203.187.163'
 const dev_server = 'http://localhost'
 
 export const server = lam_server

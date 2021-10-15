@@ -8,6 +8,7 @@ const AnswersConfiguration = (props) => {
     const [quiz, setQuiz] = useState(new Quiz())
     const [flows, setFlows] = useState({})
     const [checkedFlows, setCheckedFlows] = useState([])
+    const [checkGeral, setCheckGeral] = useState()
     const [redirGeral, setRedirGeral] = useState('')
     const history = useHistory()
 
@@ -111,9 +112,15 @@ const AnswersConfiguration = (props) => {
     const insertRedir = () => {
         const newFlows = {...flows}
 
-        checkedFlows.forEach(item => {
-            newFlows[item].redirecionamento = redirGeral
-        })
+        if (checkGeral) {
+            for (const item in newFlows) {
+                newFlows[item].redirecionamento = redirGeral
+            }
+        } else {
+            checkedFlows.forEach(item => {
+                newFlows[item].redirecionamento = redirGeral
+            })
+        }
 
         setFlows(newFlows)
         setRedirGeral('')
@@ -155,7 +162,9 @@ const AnswersConfiguration = (props) => {
             <h3 className={`${css}pageTitle`}>Configuração dos resultados - {quiz.nome}</h3>
             <div className={`${css}redir-multi`}>
                 <label>Redirecionamento:</label>
-                <input type="text" className={`${css}input`} value={redirGeral} onChange={(e) => setRedirGeral(e.target.value)} />
+                <input type="text" className={`${css}inputGeral`} value={redirGeral} onChange={(e) => setRedirGeral(e.target.value)} />
+                <p>Todos:</p>
+                <input type="checkbox" className={`${css}checkboxGeral`} onChange={(e) => setCheckGeral(e.target.checked)} />
                 <input type="button" className={`${css}insert`} value="Inserir" onClick={() => insertRedir()} />
             </div>
             {possibilityComponent()}

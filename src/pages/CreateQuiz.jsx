@@ -5,6 +5,7 @@ import '../css/global.css'
 
 import PEN_IMG from '../assets/pen.png'
 import DELETE_IMG from '../assets/delete.png'
+import X_IMG from '../assets/x.png'
 
 import { getById, insert, update, Quiz } from '../repository/quiz.repository'
 import { Pergunta } from '../repository/pergunta.repository'
@@ -17,7 +18,7 @@ const CreateQuiz = (props) => {
     const [quizName, setQuizName] = useState('')
     const [pageTitle, setPageTitle] = useState('')
     const [pageSubtitle, setPageSubtitle] = useState('')
-    const [image, setImage] = useState('')
+    const [image, setImage] = useState()
     const [token, setToken] = useState('')
     const [preview, setPreview] = useState()
     const history = useHistory()
@@ -69,6 +70,7 @@ const CreateQuiz = (props) => {
             const listQuiz = await getById(quiz_id)
             const quiz = listQuiz[0]
             console.log(quiz)
+            console.log(quiz)
             setQuizName(quiz.nome)
             setPageTitle(quiz.titulo)
             setPageSubtitle(quiz.subtitulo)
@@ -91,10 +93,10 @@ const CreateQuiz = (props) => {
             setPageSubtitle(subtitulo)
             if (imagem) {
                 setImage(imagem)
-                if (quiz.imagem.type) {
-                    getPreview(quiz.imagem)
-                } else if (quiz.imagem.mimetype) {
-                    setPreview(`data:${quiz.imagem.mimetype};base64,${quiz.imagem.buffer}`)
+                if (imagem.type) {
+                    getPreview(imagem)
+                } else if (imagem.mimetype) {
+                    setPreview(`data:${imagem.mimetype};base64,${imagem.buffer}`)
                 }
             }
             setToken(token)
@@ -185,19 +187,23 @@ const CreateQuiz = (props) => {
     }
 
     const saveQuiz = async () => {
+        setLoading(true)
         const newQuiz = updatedQuiz()
 
         const validation = quizValidation(newQuiz)
         if (validation){
             showTooltip(validation)
+            setLoading(false)
             return
         }
 
         try {
             if (quiz._id) await update(newQuiz)
             else await insert(newQuiz)
+            setLoading(false)
             history.push('/', { quiz })
         } catch (error) {
+            setLoading(false)
             alert(`Falha ao registrar quiz \n ${error}`)
         }
 
@@ -230,11 +236,18 @@ const CreateQuiz = (props) => {
                     <div className="CreateQuiz-inputArea">
                         <label>Imagem:</label>
                         <div className="CreateQuiz-imageArea">
-                            <input type="file" accept="image/png, image/jpeg" name="image" onChange={(e) => { 
-                                setImage(e.target.files[0])
-                                getPreview(e.target.files[0])
+                            {preview && <img alt='quiz_img' src={preview} className="CreateQuiz-image"/>}
+                            { image ?
+                                <img alt='x_img' src={X_IMG} className="CreateQuiz-xBtn" onClick={() => {
+                                    setImage(undefined)
+                                    setPreview(undefined)
+                                }}/>
+                                :
+                                <input type="file" accept="image/png, image/jpeg" name="image" onChange={(e) => { 
+                                    setImage(e.target.files[0])
+                                    getPreview(e.target.files[0])
                                 }} />
-                            <img alt='quiz_img' src={preview} className="CreateQuiz-image"/>
+                            }
                         </div>
                     </div>
                     <div className="CreateQuiz-questionList">

@@ -13,6 +13,7 @@ const CreateUser = (props) => {
     const [senha, setSenha] = useState('')
     const [notNew, setNotNew] = useState(false)
     const [user, saveUser,] = useUser()
+    const [isLoading, setIsLoading] = useState(false)
     const history = useHistory()
 
     const [tooltipProps, setTooltipProps] = useState({
@@ -52,7 +53,9 @@ const CreateUser = (props) => {
         return newUser
     }
 
-    const saveUserInfo = async () => {
+    const saveUserInfo = async (e) => {
+        e.preventDefault()
+        setIsLoading(true)
         const newUser = updateUser()
         const validation = userValidation(newUser)
         
@@ -66,6 +69,7 @@ const CreateUser = (props) => {
             if (userInfo._id) await update(newUser)
             else await insert(newUser)
             updateLocalUser(newUser)
+            setIsLoading(false)
             history.push('/users')
         } catch (error) {
             alert(`Falha ao registrar usuário \n ${error}`)
@@ -82,22 +86,22 @@ const CreateUser = (props) => {
     }
 
     return (
-        <div className='CreateUser-container'>
+        <form className='CreateUser-container' onSubmit={(e) => saveUserInfo(e)}>
             <div className="CreateUser-inputArea">
                 <label>Nome:</label>
-                <input value={nome} autoComplete="on" name="name" type="text" className="CreateUser-input" onChange={(e) => setNome(e.target.value)}/>
+                <input required value={nome} autoComplete="on" name="name" type="text" className="CreateUser-input" onChange={(e) => setNome(e.target.value)}/>
             </div>
             <div className="CreateUser-inputArea">
                 <label>E-mail:</label>
-                <input autoComplete="on" name="email" type="email" disabled={notNew} value={email} className="CreateUser-input" onChange={(e) => setEmail(e.target.value)}/>
+                <input required autoComplete="on" name="email" type="email" disabled={notNew} value={email} className="CreateUser-input" onChange={(e) => setEmail(e.target.value)}/>
             </div>
             <div className="CreateUser-inputArea">
                 <label>Senha:</label>
-                <input autoComplete="on" name="password" type="password" value={senha} className="CreateUser-input" onChange={(e) => setSenha(e.target.value)}/>
+                <input required autoComplete="on" name="password" type="password" value={senha} className="CreateUser-input" onChange={(e) => setSenha(e.target.value)}/>
             </div>
-            <input type="button" value="Salvar" className="CreateUser-button" onClick={() => saveUserInfo()} />
+            <input type="submit" value={isLoading ? "Aguarde..." : "Salvar"} className="CreateUser-button" />
             <Tooltip {...tooltipProps}/>
-        </div>
+        </form>
     );
 };
 

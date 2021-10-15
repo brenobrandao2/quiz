@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import '../css/CreateFinalCard.css'
 import { CardFinal } from '../repository/cardFinal.repository.js';
 
+import X_IMG from '../assets/x.png'
+
 const CreateFinalCard = (props) => {
     const [quiz, setQuiz] = useState()
     const [title, setTitle] = useState('')
     const [subtitle, setSubtitle] = useState('')
-    const [image, setImage] = useState('')
+    const [image, setImage] = useState()
     const [buttonTxt, setButtonTxt] = useState('')
     const [preview, setPreview] = useState()
 
@@ -65,11 +67,18 @@ const CreateFinalCard = (props) => {
                 <div className="CreateFinalCard-inputArea">
                     <label>Imagem:</label>
                     <div className="CreateQuiz-imageArea">
-                        <input type="file" accept="image/png, image/jpeg" name="image" onChange={(e) => {
-                            setImage(e.target.files[0])
-                            getPreview(e.target.files[0])
+                        {preview && <img alt='quiz_img' src={preview} className="CreateQuiz-image"/>}
+                        {image ?
+                            <img alt='x_img' src={X_IMG} className="CreateFinalCard-xBtn" onClick={() => {
+                                setImage(undefined)
+                                setPreview(undefined)
                             }}/>
-                        <img alt='quiz_img' src={preview} className="CreateQuiz-image"/>
+                            :
+                            <input type="file" accept="image/png, image/jpeg" name="image" onChange={(e) => {
+                                setImage(e.target.files[0])
+                                getPreview(e.target.files[0])
+                            }}/>
+                        }
                     </div>
                 </div>
                 <div className="CreateFinalCard-buttonArea">

@@ -66,7 +66,14 @@
     background-color: rgba(251, 188, 5, 0.5);
     border-width: 0px;
     border-radius: 8px;
+}
 
+.AnswersConfiguration-inputGeral {
+    height: 40px;
+    width: 50%;
+    background-color: rgba(251, 188, 5, 0.5);
+    border-width: 0px;
+    border-radius: 8px;
 }
 
 .AnswersConfiguration-button {
@@ -95,6 +102,12 @@
 
 .AnswersConfiguration-checkbox {
     align-self: flex-end;
+    height: 18px;
+    width: 18px;
+}
+
+.AnswersConfiguration-checkboxGeral {
+    align-self: center;
     height: 18px;
     width: 18px;
 }

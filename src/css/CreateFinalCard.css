@@ -21,6 +21,15 @@
 
 }
 
+.CreateFinalCard-xBtn {
+    height: 16px;
+    width: 16px;
+}
+
+.CreateFinalCard-xBtn {
+    cursor: pointer;
+}
+
 .CreateFinalCard-buttonArea {
     display: flex;
     flex-direction: column;

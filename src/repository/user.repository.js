@@ -1,3 +1,5 @@
+import { base_url_db } from "../utils/baseUrls"
+
 export class User {
     constructor(_id, nome, email, senha) {
         this._id = _id
@@ -16,7 +18,7 @@ export const insert = async (user) => {
         body: JSON.stringify(user)
     }
     
-    await fetch('http://159.203.187.163:3001/user/insert', opt).then(async response => console.log(await response.json()))
+    await fetch(`${base_url_db}/user/insert`, opt).then(async response => console.log(await response.json()))
 }
 
 export const update = async (user) => {
@@ -28,7 +30,7 @@ export const update = async (user) => {
         body: JSON.stringify(user)
     }
     
-    await fetch('http://159.203.187.163:3001/user/update', opt).then(async response => console.log(await response.json()))
+    await fetch(`${base_url_db}/user/update`, opt).then(async response => console.log(await response.json()))
 }
 
 export const getAll = async () => {
@@ -41,15 +43,17 @@ export const getAll = async () => {
 
     let allUsers = []
     try {
-        allUsers = await fetch('http://159.203.187.163:3001/user', opt).then(response => response.json())
+        allUsers = await fetch(`${base_url_db}/user`, opt).then(response => response.json())
     } catch(error) {
         console.log('Falha ao buscar dados')
     }
     
-    return allUsers.map(user => {
-        const {_id, nome, email, senha} = user
-        return new User(_id, nome, email, senha)
-    })
+    const result = allUsers && allUsers.length > 0 ? 
+        allUsers.map(user => {
+            const {_id, nome, email} = user
+            return new User(_id, nome, email)
+        }) : []
+    return result
 }
 
 export const deleteById = async (_id) => {
@@ -62,7 +66,7 @@ export const deleteById = async (_id) => {
         body: JSON.stringify({ _id })
     }
     
-    await fetch('http://159.203.187.163:3001/user/deleteById', opt).then(async response => console.log(await response.json()))
+    await fetch(`${base_url_db}/user/deleteById`, opt).then(async response => console.log(await response.json()))
 }
 
 export const tryLogin = async (email, senha) => {
@@ -76,7 +80,25 @@ export const tryLogin = async (email, senha) => {
     
     let result
     try {
-        result = await fetch('http://159.203.187.163:3001/user/login', opt).then(async response => await response.json())
+        result = await fetch(`${base_url_db}/user/login`, opt).then(async response => await response.json())
+        return {...result}
+    } catch (error) {
+        console.log('Falha ao realizar login - ', error)
+    }
+}
+
+export const checkPassword = async (email, senha) => {
+    const opt = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, senha })
+    }
+    
+    let result
+    try {
+        result = await fetch(`${base_url_db}/user/checkPassword`, opt).then(async response => await response.json())
         return {...result}
     } catch (error) {
         console.log('Falha ao realizar login - ', error)

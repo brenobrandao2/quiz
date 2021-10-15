@@ -1,5 +1,6 @@
 import { CardFinal } from "./cardFinal.repository"
 import { Pergunta } from "./pergunta.repository"
+import { base_url_db } from "../utils/baseUrls"
 
 export class Quiz {
     constructor(_id, nome, titulo, subtitulo, imagem, duplicidade, perguntas, cardFinal, createdAt, lastModified, fluxos, token) {
@@ -37,7 +38,7 @@ export const getAll = async () => {
 
     let allQuiz = []
     try {
-        allQuiz = await fetch('http://159.203.187.163:3001/quiz', opt).then(response => response.json())
+        allQuiz = await fetch(`${base_url_db}/quiz`, opt).then(response => response.json())
     } catch(error) {
         console.log('Falha ao buscar dados')
     }
@@ -56,7 +57,7 @@ export const getById = async (_id) => {
         },
         body: JSON.stringify({key: _id})
     }
-    const allQuiz = await fetch('http://159.203.187.163:3001/quiz/getById', opt).then(response => response.json())
+    const allQuiz = await fetch(`${base_url_db}/quiz/getById`, opt).then(response => response.json())
     
     return allQuiz.map(quiz => {
         const {_id, nome, titulo, subtitulo, imagem, duplicidade, perguntas, cardFinal, createdAt, lastModified, fluxos, token} = quiz
@@ -74,7 +75,7 @@ export const deleteById = async (_id) => {
         body: JSON.stringify({ _id })
     }
     
-    await fetch('http://159.203.187.163:3001/quiz/deleteById', opt).then(async response => console.log(await response.json()))
+    await fetch(`${base_url_db}/quiz/deleteById`, opt).then(async response => console.log(await response.json()))
 }
 
 export const insert = async (quiz) => {
@@ -98,7 +99,7 @@ export const insert = async (quiz) => {
         body: formData
     }
     
-    await fetch('http://159.203.187.163:3001/quiz/insert', opt).then(async response => {})//console.log(await response.json()))
+    await fetch(`${base_url_db}/quiz/insert`, opt).then(async response => {})//console.log(await response.json()))
 }
 
 export const update = async (quiz) => {
@@ -125,7 +126,7 @@ export const update = async (quiz) => {
         body: formData
     }
     
-    await fetch('http://159.203.187.163:3001/quiz/update', opt).then(async response => console.log(await response.json()))
+    await fetch(`${base_url_db}/quiz/update`, opt).then(async response => console.log(await response.json()))
 }
 
 

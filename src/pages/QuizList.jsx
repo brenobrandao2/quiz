@@ -10,8 +10,8 @@ import { deleteById, getAll } from '../repository/quiz.repository.js'
 import dayjs from 'dayjs'
 import { useUser } from '../contexts/AuthContext'
 import Tooltip from '../components/Tooltip'
-
-const BASE_URL_CLIENT_QUIZ = 'http://159.203.187.163:9002/'
+import { base_url_client_quiz } from '../utils/baseUrls'
+import { checkPassword } from '../repository/user.repository'
 
 const QuizList = (props) => {
     const [searchQuizText, setSearchQuizText] = useState('')
@@ -45,7 +45,6 @@ const QuizList = (props) => {
     const reloadQuizList = async () => {
         setLoading(true)
         const res = await getAll()
-        console.log(res)
         setCompleteListQuiz(res)
         setLoading(false)
     }
@@ -53,11 +52,19 @@ const QuizList = (props) => {
     const deleteQuiz = async (id) => {
         const password = prompt('Digite sua senha para excluir o quiz: ')
         if (password === null) return
-        else if (password === user.senha) {
-            await deleteById(id)
-            setListShowQuiz([])
-            reloadQuizList()
-        } else alert('Senha incorreta!')
+        else {
+            try {
+                const auth = await checkPassword(user.email, password)
+                if (auth.status) {
+                    await deleteById(id)
+                    setListShowQuiz([])
+                    reloadQuizList()
+                } else alert('Senha incorreta!')
+            } catch (error) {
+                alert('Falha ao excluir Quiz')
+                console.log('Falha ao excluir Quiz - ', error)
+            }
+        }
     }
       
     useEffect(() => {
@@ -82,7 +89,7 @@ const QuizList = (props) => {
                                 <p className="QuizList-quizDate">{dayjs(quiz.lastModified).format('DD/MM/YYYY HH:mm:ss')}</p>
                                 <div className="QuizList-iconsArea">
                                     <button type="button" className="QuizList-copyQuizUrl" onClick={() => {
-                                        copy(BASE_URL_CLIENT_QUIZ+quiz._id)
+                                        copy(base_url_client_quiz + quiz._id)
                                         showTooltip('Endereço copiado!', 3000)
                                         }}>
                                         <p>copiar endereço</p>

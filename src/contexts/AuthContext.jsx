@@ -18,7 +18,6 @@ export default function AuthProvider({ children }) {
     }
 
     function saveUser(user) {
-        console.log('User: ', JSON.stringify(user))
         setUser(user)
         localStorage.setItem(keyUser, JSON.stringify(user))
     }

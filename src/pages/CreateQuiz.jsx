@@ -43,7 +43,6 @@ const CreateQuiz = (props) => {
 
     const getPreview = (imagem) => {
         if (imagem) {
-            console.log(imagem)
             const fileReader = new FileReader()
             fileReader.readAsDataURL(imagem)
             fileReader.addEventListener('load', (e) => {
@@ -69,8 +68,6 @@ const CreateQuiz = (props) => {
             setLoading(true)
             const listQuiz = await getById(quiz_id)
             const quiz = listQuiz[0]
-            console.log(quiz)
-            console.log(quiz)
             setQuizName(quiz.nome)
             setPageTitle(quiz.titulo)
             setPageSubtitle(quiz.subtitulo)
@@ -86,7 +83,6 @@ const CreateQuiz = (props) => {
         }
 
         if (quiz) {
-            console.log(quiz)
             const { nome, titulo, subtitulo, token, imagem } = quiz
             setQuizName(nome)
             setPageTitle(titulo)

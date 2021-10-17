@@ -19,7 +19,6 @@ const UsersList = (props) => {
     const reloadUsersList = async () => {
         setLoading(true)
         const res = await getAll()
-        console.log(res)
         setCompleteListUsers(res)
         setLoading(false)
     }

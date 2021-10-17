@@ -65,7 +65,6 @@ const CreateUser = (props) => {
         }
 
         try {
-            console.log(userInfo._id)
             if (userInfo._id) await update(newUser)
             else await insert(newUser)
             updateLocalUser(newUser)

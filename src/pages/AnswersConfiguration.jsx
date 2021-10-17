@@ -15,7 +15,6 @@ const AnswersConfiguration = (props) => {
     useEffect(() => {
         const { quiz } = props.location.state || {}
         const { fluxos } = quiz
-        console.log(quiz)
         if (fluxos) {
             setFlows(fluxos)
             setQuiz(quiz)
@@ -63,7 +62,6 @@ const AnswersConfiguration = (props) => {
             const newFlows = {}
 
             for (const flow of allFlows) {
-                console.log('Xxxx - > ', flow)
                 const codigos = flow.map(item => item.codigo)
                 const codigo = codigos.join("")
                 
@@ -105,7 +103,6 @@ const AnswersConfiguration = (props) => {
             const index = list.indexOf(key)
             list.splice(index, 1)
         }
-        console.log(list)
         setCheckedFlows(list)
     }
 

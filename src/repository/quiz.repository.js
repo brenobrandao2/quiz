@@ -112,17 +112,13 @@ export const insert = async (quiz) => {
     delete quiz.cardFinal.imagem
     
     formData.append('quiz', JSON.stringify(quiz))
-    
-    for(var pair of formData.entries()) {
-        console.log(pair[0]+', '+pair[1]);
-      }
 
     const opt = {
         method: 'POST',
         body: formData
     }
     
-    await fetch(`${base_url_db}/quiz/insert`, opt).then(async response => {})//console.log(await response.json()))
+    await fetch(`${base_url_db}/quiz/insert`, opt).then(async response => {})
 }
 
 export const update = async (quiz) => {
@@ -134,10 +130,6 @@ export const update = async (quiz) => {
     if (quiz.cardFinal.imagem){
         formData.append('cardFinalImagem', quiz.cardFinal.imagem)
     }
-
-    for(var pair of formData.entries()) {
-        console.log(pair[0]+', '+pair[1]);
-      }
     
     delete quiz.imagem
     delete quiz.cardFinal.imagem
@@ -151,16 +143,3 @@ export const update = async (quiz) => {
     
     await fetch(`${base_url_db}/quiz/update`, opt).then(async response => console.log(await response.json()))
 }
-
-
-// export const insertQuizTest = async () => {
-//     const opt = {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json',
-//         },
-//     }
-    
-//     await fetch('http://localhost:3000/quiz/insertQuizTest', opt).then(async response => console.log(await response.json()))
-// }
-

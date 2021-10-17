@@ -40,7 +40,6 @@ const CreateFinalCard = (props) => {
 
     const saveFinalCard = () => {
         const newQuiz = {...quiz}
-        console.log(newQuiz)
         newQuiz.cardFinal.titulo = title
         newQuiz.cardFinal.subtitulo = subtitle
         newQuiz.cardFinal.botao = buttonTxt

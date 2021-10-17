@@ -45,7 +45,6 @@ const QuizList = (props) => {
     const reloadQuizList = async () => {
         setLoading(true)
         const res = await getSimpleList()
-        console.log(res)
         setCompleteListQuiz(res)
         setLoading(false)
     }

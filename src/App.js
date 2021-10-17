@@ -44,12 +44,19 @@ function App() {
   } else {
     console.log('Not logged in')
     return (
-      <Router>
-        <div className="App">
-          <Header />
-          <Route path="/" exact component={Login} />
-        </div>
-      </Router>
+      <HelmetProvider>
+        <Router>
+          <div className="App">
+            <Helmet>
+              <meta charSet="utf-8" />
+              <link rel="icon" type="image/png" href="https://lifeandmoney.com.br/wp-content/uploads/2021/04/Favicon-LM-300x300.png" />
+              <title>Life + Money Quiz</title>
+            </Helmet>
+            <Header />
+            <Route path="/" exact component={Login} />
+          </div>
+        </Router>
+      </HelmetProvider>
     );
   }
 }

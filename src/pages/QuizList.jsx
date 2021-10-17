@@ -6,7 +6,7 @@ import '../css/QuizList.css'
 import PEN_IMG from '../assets/pen.png'
 import DELETE_IMG from '../assets/delete.png'
 import COPY_IMG from '../assets/copy.png'
-import { deleteById, getAll } from '../repository/quiz.repository.js'
+import { deleteById, getSimpleList } from '../repository/quiz.repository.js'
 import dayjs from 'dayjs'
 import { useUser } from '../contexts/AuthContext'
 import Tooltip from '../components/Tooltip'
@@ -44,7 +44,8 @@ const QuizList = (props) => {
 
     const reloadQuizList = async () => {
         setLoading(true)
-        const res = await getAll()
+        const res = await getSimpleList()
+        console.log(res)
         setCompleteListQuiz(res)
         setLoading(false)
     }

@@ -49,6 +49,29 @@ export const getAll = async () => {
     })
 }
 
+export const getSimpleList = async () => {
+    const opt = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    }
+
+    let allQuiz = []
+    try {
+        allQuiz = await fetch(`${base_url_db}/quiz/getSimpleList`, opt).then(response => response.json())
+    } catch(error) {
+        console.log('Falha ao buscar dados')
+    }
+    
+    const result = allQuiz && allQuiz.length > 0 ? 
+    allQuiz.map(quiz => {
+        const {_id, nome, titulo, subtitulo, imagem, duplicidade, perguntas, cardFinal, createdAt, lastModified, fluxos, token} = quiz
+        return new Quiz(_id, nome, titulo, subtitulo, imagem, duplicidade, perguntas, cardFinal, createdAt, lastModified, fluxos, token)
+    }) : []
+    return result
+}
+
 export const getById = async (_id) => {
     const opt = {
         method: 'POST',

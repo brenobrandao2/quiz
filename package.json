@@ -2,7 +2,7 @@
   "name": "quizadmin",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://quiz-adm.brenobrandao.site/",
+  "homepage": "https://quiz-adm.lifeandmoney.com.br/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",

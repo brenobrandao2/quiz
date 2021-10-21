@@ -45,7 +45,7 @@ function App() {
     console.log('Not logged in')
     return (
       <HelmetProvider>
-        <Router>
+        <Router basename="quiz-adm">
           <div className="App">
             <Helmet>
               <meta charSet="utf-8" />

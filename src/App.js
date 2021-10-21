@@ -21,7 +21,7 @@ function App() {
     console.log('Logged in')
     return (
       <HelmetProvider>
-        <Router>
+        <Router basename="quiz-adm">
           <div className="App">
             <Helmet>
               <meta charSet="utf-8" />

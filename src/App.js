@@ -21,7 +21,7 @@ function App() {
     console.log('Logged in')
     return (
       <HelmetProvider>
-        <Router basename={process.env.PUBLIC_URL}>
+        <Router basename="/quiz-adm">
           <div className="App">
             <Helmet>
               <meta charSet="utf-8" />
@@ -45,7 +45,7 @@ function App() {
     console.log('Not logged in')
     return (
       <HelmetProvider>
-        <Router basename={process.env.PUBLIC_URL}>
+        <Router basename="/quiz-adm">
           <div className="App">
             <Helmet>
               <meta charSet="utf-8" />

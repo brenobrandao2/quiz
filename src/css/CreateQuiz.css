@@ -20,6 +20,15 @@
     border-radius: 8px;
 }
 
+.CreateQuiz-select {
+    height: 40px;
+    width: 74%;
+    background-color: #E8E8E8;
+    border-width: 0px;
+    border-radius: 8px;
+    padding-left: 2%;
+}
+
 .CreateQuiz-questionList {
     display: flex;
     flex-direction: column;

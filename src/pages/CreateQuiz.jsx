@@ -11,6 +11,7 @@ import { getById, insert, update, Quiz } from '../repository/quiz.repository'
 import { Pergunta } from '../repository/pergunta.repository'
 import { quizValidation } from '../utils/quizValidation';
 import Tooltip from '../components/Tooltip'
+import { getLists } from '../repository/activeCampaign.repository'
 
 const CreateQuiz = (props) => {
     const [loading, setLoading] = useState(false)
@@ -20,6 +21,9 @@ const CreateQuiz = (props) => {
     const [pageSubtitle, setPageSubtitle] = useState('')
     const [image, setImage] = useState()
     const [token, setToken] = useState('')
+    const [listName, setListName] = useState('')
+    const [listId, setListId] = useState(undefined)
+    const [availableLists, setAvailableLists] = useState([])
     const [preview, setPreview] = useState()
     const history = useHistory()
     
@@ -58,6 +62,8 @@ const CreateQuiz = (props) => {
         newQuiz.subtitulo = pageSubtitle
         newQuiz.imagem = image
         newQuiz.token = token
+        newQuiz.listName = listName
+        newQuiz.listId = listId
         return newQuiz
     } 
 
@@ -78,12 +84,15 @@ const CreateQuiz = (props) => {
                 setPreview(`data:${quiz.imagem.mimetype};base64,${quiz.imagem.buffer}`)
             }
             setToken(quiz.token)
+            loadToken(quiz.token)
+            setListName(quiz.listName)
+            setListId(quiz.listId)
             setQuiz(quiz)
             setLoading(false)
         }
 
         if (quiz) {
-            const { nome, titulo, subtitulo, token, imagem } = quiz
+            const { nome, titulo, subtitulo, token, imagem, listName, listId } = quiz
             setQuizName(nome)
             setPageTitle(titulo)
             setPageSubtitle(subtitulo)
@@ -96,6 +105,9 @@ const CreateQuiz = (props) => {
                 }
             }
             setToken(token)
+            loadToken(token)
+            setListName(listName)
+            setListId(listId)
             setQuiz(quiz)
         }
         else if (id_quiz) 
@@ -202,7 +214,27 @@ const CreateQuiz = (props) => {
             setLoading(false)
             alert(`Falha ao registrar quiz \n ${error}`)
         }
+    }
 
+    const loadToken = async (token) => {
+        setToken(token)
+        const acLists = await getLists(token)
+        setAvailableLists(acLists)
+    }
+
+    const mountLists = () => {
+        return availableLists.map(list => {
+            const strValue = JSON.stringify({name: list.name, id: list.id})
+            return(
+                <option 
+                    key={list.id}
+                    selected={list.id === listId}
+                    value={strValue}
+                >
+                    {list.name}
+                </option>            
+            )
+        })
     }
 
     return (
@@ -227,7 +259,21 @@ const CreateQuiz = (props) => {
                     </div>
                     <div className="CreateQuiz-inputArea">
                         <label>Token:</label>
-                        <input value={token} className="CreateQuiz-input" onChange={(e) => setToken(e.target.value)}/>
+                        <input value={token} className="CreateQuiz-input" onChange={(e) => loadToken(e.target.value)}/>
+                    </div>
+                    <div className="CreateQuiz-inputArea">
+                        <label>Lista:</label>
+                        <select 
+                            name="select"
+                            className="CreateQuiz-select"
+                            onChange={(e) => {
+                                const objValue = JSON.parse(e.target.value)
+                                setListName(objValue.name)
+                                setListId(objValue.id)
+                            }}
+                        >
+                            {mountLists()}
+                        </select>
                     </div>
                     <div className="CreateQuiz-inputArea">
                         <label>Imagem:</label>

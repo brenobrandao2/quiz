@@ -1,12 +1,12 @@
 import { base_url_db } from "../utils/baseUrls"
 
-export const getLists = async (token) => {
+export const getLists = async (apiUrl, token) => {
     const opt = {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ token })
+        body: JSON.stringify({ apiUrl, token })
     }
     
     let allLists

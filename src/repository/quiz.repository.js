@@ -3,7 +3,7 @@ import { Pergunta } from "./pergunta.repository"
 import { base_url_db } from "../utils/baseUrls"
 
 export class Quiz {
-    constructor(_id, nome, titulo, subtitulo, imagem, duplicidade, perguntas, cardFinal, createdAt, lastModified, fluxos, token, listName, listId) {
+    constructor(_id, nome, titulo, subtitulo, imagem, duplicidade, perguntas, cardFinal, createdAt, lastModified, fluxos, token, listName, listId, apiUrl) {
         this._id = _id
         this.nome = nome || ''
         this.titulo = titulo || ''
@@ -22,6 +22,7 @@ export class Quiz {
         this.token = token || ''
         this.listName = listName || ''
         this.listId = listId || ''
+        this.apiUrl = apiUrl || ''
     }
 
     setPerguntas(perguntas) {
@@ -46,8 +47,8 @@ export const getAll = async () => {
     }
     
     return allQuiz.map(quiz => {
-        const {_id, nome, titulo, subtitulo, imagem, duplicidade, perguntas, cardFinal, createdAt, lastModified, fluxos, token, listName, listId} = quiz
-        return new Quiz(_id, nome, titulo, subtitulo, imagem, duplicidade, perguntas, cardFinal, createdAt, lastModified, fluxos, token, listName, listId)
+        const {_id, nome, titulo, subtitulo, imagem, duplicidade, perguntas, cardFinal, createdAt, lastModified, fluxos, token, listName, listId, apiUrl} = quiz
+        return new Quiz(_id, nome, titulo, subtitulo, imagem, duplicidade, perguntas, cardFinal, createdAt, lastModified, fluxos, token, listName, listId, apiUrl)
     })
 }
 
@@ -68,8 +69,8 @@ export const getSimpleList = async () => {
     
     const result = allQuiz && allQuiz.length > 0 ? 
     allQuiz.map(quiz => {
-        const {_id, nome, titulo, subtitulo, imagem, duplicidade, perguntas, cardFinal, createdAt, lastModified, fluxos, token, listName, listId} = quiz
-        return new Quiz(_id, nome, titulo, subtitulo, imagem, duplicidade, perguntas, cardFinal, createdAt, lastModified, fluxos, token, listName, listId)
+        const {_id, nome, titulo, subtitulo, imagem, duplicidade, perguntas, cardFinal, createdAt, lastModified, fluxos, token, listName, listId, apiUrl} = quiz
+        return new Quiz(_id, nome, titulo, subtitulo, imagem, duplicidade, perguntas, cardFinal, createdAt, lastModified, fluxos, token, listName, listId, apiUrl)
     }) : []
     return result
 }
@@ -85,8 +86,8 @@ export const getById = async (_id) => {
     const allQuiz = await fetch(`${base_url_db}/quiz/getById`, opt).then(response => response.json())
     
     return allQuiz.map(quiz => {
-        const {_id, nome, titulo, subtitulo, imagem, duplicidade, perguntas, cardFinal, createdAt, lastModified, fluxos, token, listName, listId} = quiz
-        return new Quiz(_id, nome, titulo, subtitulo, imagem, duplicidade, perguntas, cardFinal, createdAt, lastModified, fluxos, token, listName, listId)
+        const {_id, nome, titulo, subtitulo, imagem, duplicidade, perguntas, cardFinal, createdAt, lastModified, fluxos, token, listName, listId, apiUrl} = quiz
+        return new Quiz(_id, nome, titulo, subtitulo, imagem, duplicidade, perguntas, cardFinal, createdAt, lastModified, fluxos, token, listName, listId, apiUrl)
     })
 }
 

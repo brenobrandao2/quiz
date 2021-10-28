@@ -21,6 +21,7 @@ const CreateQuiz = (props) => {
     const [pageSubtitle, setPageSubtitle] = useState('')
     const [image, setImage] = useState()
     const [token, setToken] = useState('')
+    const [apiUrl, setApiUrl] = useState('')
     const [listName, setListName] = useState('')
     const [listId, setListId] = useState(undefined)
     const [availableLists, setAvailableLists] = useState([])
@@ -62,6 +63,7 @@ const CreateQuiz = (props) => {
         newQuiz.subtitulo = pageSubtitle
         newQuiz.imagem = image
         newQuiz.token = token
+        newQuiz.apiUrl = apiUrl
         newQuiz.listName = listName
         newQuiz.listId = listId
         return newQuiz
@@ -84,7 +86,8 @@ const CreateQuiz = (props) => {
                 setPreview(`data:${quiz.imagem.mimetype};base64,${quiz.imagem.buffer}`)
             }
             setToken(quiz.token)
-            loadToken(quiz.token)
+            setApiUrl(quiz.apiUrl)
+            loadLists(quiz.apiUrl, quiz.token)
             setListName(quiz.listName)
             setListId(quiz.listId)
             setQuiz(quiz)
@@ -92,7 +95,7 @@ const CreateQuiz = (props) => {
         }
 
         if (quiz) {
-            const { nome, titulo, subtitulo, token, imagem, listName, listId } = quiz
+            const { nome, titulo, subtitulo, token, imagem, listName, listId, apiUrl } = quiz
             setQuizName(nome)
             setPageTitle(titulo)
             setPageSubtitle(subtitulo)
@@ -105,7 +108,8 @@ const CreateQuiz = (props) => {
                 }
             }
             setToken(token)
-            loadToken(token)
+            setApiUrl(apiUrl)
+            loadLists(apiUrl, token)
             setListName(listName)
             setListId(listId)
             setQuiz(quiz)
@@ -216,10 +220,27 @@ const CreateQuiz = (props) => {
         }
     }
 
+    const loadApiUrl = async (apiUrl) => {
+        setApiUrl(apiUrl)
+        if (apiUrl && token) {
+            const acLists = await getLists(apiUrl, token)
+            setAvailableLists(acLists)
+        }
+    }
+
     const loadToken = async (token) => {
         setToken(token)
-        const acLists = await getLists(token)
-        setAvailableLists(acLists)
+        if (token && apiUrl) {
+            const acLists = await getLists(apiUrl, token)
+            setAvailableLists(acLists)
+        }
+    }
+
+    const loadLists = async (apiUrl, token) => {
+        if (apiUrl && token) {
+            const acLists = await getLists(apiUrl, token)
+            setAvailableLists(acLists)
+        }
     }
 
     const mountLists = () => {
@@ -256,6 +277,10 @@ const CreateQuiz = (props) => {
                     <div className="CreateQuiz-inputArea">
                         <label>Subtítulo da página:</label>
                         <input value={pageSubtitle} className="CreateQuiz-input" onChange={(e) => setPageSubtitle(e.target.value)}/>
+                    </div>
+                    <div className="CreateQuiz-inputArea">
+                        <label>URL:</label>
+                        <input value={apiUrl} className="CreateQuiz-input" onChange={(e) => loadApiUrl(e.target.value)}/>
                     </div>
                     <div className="CreateQuiz-inputArea">
                         <label>Token:</label>

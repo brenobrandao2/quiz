@@ -8,7 +8,9 @@ export const quizValidation = (quiz) => {
     if (!quiz.subtitulo)
         missing.push('subtítulo do quiz')
     if (!quiz.token)
-        missing.push('token do quiz')
+        missing.push('token da api')
+    if (!quiz.apiUrl)
+        missing.push('url da api')
     
     let missingQuestion = false
     let missingAnswer = false

@@ -1,18 +1,19 @@
-import './css/App.css';
+import './css/App.css'
 import Header from './components/Header'
 import Login from './pages/Login'
-import QuizList from './pages/QuizList';
-import CreateQuiz from './pages/CreateQuiz';
-import CreateQuestion from './pages/CreateQuestion';
-import CreateFinalCard from './pages/CreateFinalCard';
-import AnswersConfiguration from './pages/AnswersConfiguration';
-import Configurations from './pages/Configurations';
-import UsersList from './pages/UsersList';
-import CreateUser from './pages/CreateUser';
+import QuizList from './pages/QuizList'
+import CreateQuiz from './pages/CreateQuiz'
+import CreateQuestion from './pages/CreateQuestion'
+import CreateFinalCard from './pages/CreateFinalCard'
+import AnswersConfiguration from './pages/AnswersConfiguration'
+import Configurations from './pages/Configurations'
+import UsersList from './pages/UsersList'
+import CreateUser from './pages/CreateUser'
+import Dashboard from './pages/Dashboard'
 
 import { BrowserRouter as Router, Route } from 'react-router-dom'
-import { Helmet, HelmetProvider } from 'react-helmet-async';
-import { useUser } from './contexts/AuthContext';
+import { Helmet, HelmetProvider } from 'react-helmet-async'
+import { useUser } from './contexts/AuthContext'
 
 function App() {
   const [user, ,] = useUser()
@@ -37,6 +38,7 @@ function App() {
             <Route path="/configurations" exact component={Configurations} />
             <Route path="/users" exact component={UsersList} />
             <Route path="/create-user" exact component={CreateUser} />
+            <Route path="/dashboard" exact component={Dashboard} />
           </div>
         </Router>
       </HelmetProvider>

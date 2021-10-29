@@ -1,0 +1,251 @@
+.Dashboard-container {
+    margin: 120px 5% 0px 5%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.Dashboard-quizList{
+    width: 48%;
+}
+
+.Dashboard-separator {
+    height: 80vh;
+    width: 1px;
+    border-left-width: 1px;
+    border-left-style: solid;
+    border-left-color: rgba(0, 0, 0, 0.2);
+}
+
+.Dashboard-quizInfo {
+    width: 48%;
+    display: flex;
+    flex-direction: column;
+    height: 80vh;
+    overflow-y: scroll;
+}
+
+.Dashboard-periodoArea {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.Dashboard-btnPeriodo {
+    padding: 5px 14px 0px 14px;
+    height: 30px;
+    font-size: 18px;
+    background-color: rgba(251, 188, 5, 0.7);
+    border-radius: 8px;
+    border-width: 0px;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+}
+    
+.Dashboard-btnPeriodo:hover {
+    background-color: rgba(251, 188, 5, 0.5);
+    cursor: pointer;
+}
+
+.Dashboard-titleArea {
+    margin-top: 30px;
+    padding: 0px;
+}
+
+.Dashboard-quizTitleFunil {
+    margin: 0px;
+}
+
+.Dashboard-funilArea {
+    align-self: center;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 40px;
+}
+
+.Dashboard-funilBar {
+    height: 30px;
+    margin-bottom: 10px;
+}
+
+.Dashboard-porcentagem {
+    margin-top: 0px;
+}
+
+.Dashboard-legendaArea {
+    margin-top: 40px;
+}
+
+.Dashboard-legendItem {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 30px;
+}
+
+.Dashboard-legendColor {
+    width: 20px;
+    height: 20px;
+}
+
+.Dashboard-txtLegend {
+    margin-left: 20px;
+}
+
+.Dashboard-options {
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.Dashboard-searchQuizField {
+    width: 100%;
+    height: 30px;
+    padding-left: 2%;
+    border-color: rgba(0, 0, 0, 0.2);
+}
+
+.Dashboard-newQuizButton {
+    padding: 5px 14px 0px 14px;
+    height: 30px;
+    font-size: 18px;
+    background-color: rgba(251, 188, 5, 0.7);
+    border-radius: 8px;
+    border-width: 0px;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+}
+
+.Dashboard-newQuizButton:hover {
+    background-color: rgba(251, 188, 5, 0.5);
+    cursor: pointer;
+}
+
+.Dashboard-listQuizArea {
+    margin-top: 30px;
+    border-top-width: 1px;
+    border-top-style: solid;
+    border-top-color: rgba(0, 0, 0, 0.2);
+    height: 70vh;
+    overflow-y: scroll;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #fff;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+
+.Dashboard-quizArea {
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 2% 0px 2%;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: rgba(0, 0, 0, 0.2);
+}
+
+.Dashboard-nome {
+    width: 60%;
+    text-align: start;
+}
+
+.Dashboard-iconsArea {
+    display: flex;
+    width: 20%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.Dashboard-quizDate {
+    width: 20%;
+    font-size: 15px;
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.Dashboard-copyQuizUrl {
+    display: flex;
+    flex-direction: row;
+    height: 35px;
+    background-color: transparent;
+    justify-content: space-between;
+    align-items: center;
+    margin-right: 25px;
+    background-color: transparent;
+    border-radius: 8px;
+    border-width: 0.5px;
+    border-color: rgba(0, 0, 0, 0.2);
+    color: rgba(0, 0, 0, 0.5);
+    font-weight: bold;
+    
+}
+
+.Dashboard-copyQuizUrl:hover {
+    cursor: pointer;
+}
+
+.Dashboard-icon {
+    height: 20px;
+    width: 20px;
+    margin-right: 15px;
+}
+
+.Dashboard-iconCopy {
+    height: 20px;
+    width: 20px;
+    margin-left: 10px;
+    
+}
+
+.Dashboard-icon:hover {
+    cursor: pointer;
+}
+
+.Dashboard-LoaderArea {
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 2% 0px 2%;
+    border-top-width: 1px;
+    border-top-style: solid;
+    border-top-color: rgba(0, 0, 0, 0.2);
+}
+
+.Dashboard-loader {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid rgba(251, 188, 5, 0.7);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 10px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }

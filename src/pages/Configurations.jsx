@@ -6,6 +6,7 @@ const Configurations = () => {
     return (
         <div className="Configuration-container">
             <Link className="Configuration-item" to="/users">Gerenciar usuários</Link>
+            <Link className="Configuration-item" to="/dashboard">Dashboard</Link>
         </div>
     );
 };

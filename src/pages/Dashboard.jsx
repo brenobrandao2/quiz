@@ -4,38 +4,11 @@ import * as copy from 'copy-to-clipboard'
 import '../css/Dashboard.css'
 import COPY_IMG from '../assets/copy.png'
 import { getSimpleList } from '../repository/quiz.repository.js'
+import { getQuizMetrics } from '../repository/metric.repository'
 import dayjs from 'dayjs'
 import Tooltip from '../components/Tooltip'
 import { base_url_client_quiz } from '../utils/baseUrls'
 import { getRandomColor } from '../utils/colors'
-
-const mockDados = [
-    {
-        legenda: 'O que é mais importante para você?',
-        cliques: 100,
-        color: getRandomColor(),
-    },
-    {
-        legenda: 'Em qual grupo você se encaixa?',
-        cliques: 85,
-        color: getRandomColor(),
-    },
-    {
-        legenda: 'Pergunta 3?',
-        cliques: 80,
-        color: getRandomColor(),
-    },
-    {
-        legenda: 'Pergunta 4?',
-        cliques: 75,
-        color: getRandomColor(),
-    },
-    {
-        legenda: 'Leads? (8540)',
-        cliques: 70,
-        color: getRandomColor(),
-    },
-]
 
 const Dashboard = (props) => {
     const [searchQuizText, setSearchQuizText] = useState('')
@@ -44,6 +17,13 @@ const Dashboard = (props) => {
     const [loading, setLoading] = useState(false)
     const [inicio, setInicio] = useState('')
     const [fim, setFim] = useState('')
+
+    const [dashboardLoading, setDashboardLoading] = useState(false)
+    const [selectedQuiz, setSelectedQuiz] = useState({})
+    const [quizMetrics, setQuizMetrics] = useState([])
+    const [filteredMetrics, setFilteredMetrics] = useState([])
+    const [quizAccess, setQuizAccess] = useState(0)
+    const [dashboardData, setDashboardData] = useState({})
 
     const [tooltipProps, setTooltipProps] = useState({
         text: '',
@@ -81,30 +61,105 @@ const Dashboard = (props) => {
         setListShowQuiz(completeListQuiz)
     },[searchQuizText, completeListQuiz])
 
+    useEffect(() => {
+        loadQuizFiltered()
+    },[inicio, fim])
+
     const mountBar = () => {
-        return mockDados.map((item, index) => {
+        return Object.keys(dashboardData).map((key, index) => {
+            const engajamento = ((dashboardData[key].ocorrencias * 100) / quizAccess).toFixed(0)
+
             const customStyle = {
-                width: `${item.cliques}%`,
-                backgroundColor: item.color,
+                width: `${engajamento}%`,
+                backgroundColor: dashboardData[key].color,
             }
+
             return(
                 <div key={index} className="Dashboard-funilBar" style={customStyle}>
-                    <p className="Dashboard-porcentagem">{item.cliques}%</p>
+                    <p className="Dashboard-porcentagem">{engajamento}%</p>
                 </div>
             )
         })
     }
 
     const mountLegenda = () => {
-        return mockDados.map((item, index) => {
+        return Object.keys(dashboardData).map((key, index) => {
             
             return (
                 <div key={index} className="Dashboard-legendItem">
-                    <div className="Dashboard-legendColor" style={{backgroundColor: item.color}}/>
-                    <p className="Dashboard-txtLegend">{item.legenda}</p>
+                    <div className="Dashboard-legendColor" style={{backgroundColor: dashboardData[key].color}}/>
+                    <p className="Dashboard-txtLegend">{key}</p>
                 </div>
             )
         })
+    }
+
+    const loadQuiz = async (quiz) => {
+        setDashboardLoading(true)
+        setSelectedQuiz(quiz)
+        
+        const quizMetrics = await getQuizMetrics(quiz._id)
+        
+        setQuizMetrics(quizMetrics)
+        getDashboardData(quizMetrics)
+
+        setDashboardLoading(false)
+    }
+
+    const loadQuizFiltered = () => {
+        setDashboardLoading(true)
+
+        const filteredMetrics = quizMetrics.filter(metric => {
+            let result = true
+            if(inicio) {
+                if (dayjs(metric.data).format('MM/DD/YYYY') < dayjs(inicio).format('MM/DD/YYYY'))
+                    result = false
+            }
+            if (fim) {
+                if (dayjs(metric.data).format('MM/DD/YYYY') > dayjs(fim).format('MM/DD/YYYY'))
+                    result = false
+            }
+            return result
+        })
+
+        setFilteredMetrics(filteredMetrics)
+        getDashboardData(filteredMetrics)
+
+        setDashboardLoading(false)
+    }
+
+    const getDashboardData = (quizMetrics) => {
+        let access = 0
+
+        const result = quizMetrics.reduce((acc, cur) => {
+            if (cur.acesso) {
+                access++
+                return acc
+            }
+            
+            const key = cur.lead ? 'Leads' : cur.pergunta
+
+            acc[key] = acc[key] || {}
+            
+            acc[key].ocorrencias = acc[key].ocorrencias || 0
+            acc[key].ocorrencias++
+
+            acc[key].metricas = acc[key].metricas || []
+            acc[key].metricas.push(cur)
+
+            acc[key].color = acc[key].color || getRandomColor()
+            
+            return acc
+        },{})
+        
+        if (result['Leads']) {
+            const leads = result['Leads']
+            delete result['Leads']
+            result['Leads'] = leads
+        }
+        
+        setDashboardData(result)
+        setQuizAccess(access)
     }
 
     return (
@@ -118,7 +173,7 @@ const Dashboard = (props) => {
                         listShowQuiz.map((quiz, index) => {
                             return(
                                 <div key={index} className="Dashboard-quizArea">
-                                    <h4 className="Dashboard-nome">{quiz.nome}</h4>
+                                    <h4 className="Dashboard-nome" onClick={() => loadQuiz(quiz)}>{quiz.nome}</h4>
                                     <button type="button" className="Dashboard-copyQuizUrl" onClick={() => {
                                         copy(base_url_client_quiz + quiz._id)
                                         showTooltip('Endereço copiado!', 3000)
@@ -138,22 +193,39 @@ const Dashboard = (props) => {
                 <Tooltip {...tooltipProps}/>
             </div>
             <div className="Dashboard-separator"/>
-            <div className="Dashboard-quizInfo">
-                    <div className="Dashboard-periodoArea">
-                        <input type="date" id="inicio" className="Dashboard-btnPeriodo" onChange={(e) => setInicio(e.target.value)}/>
-                        <input type="date" id="fim" className="Dashboard-btnPeriodo" onChange={(e) => setFim(e.target.value)}/>
+            {
+                dashboardLoading ?
+                    <div className="Dashboard-LoaderAreaDash">
+                        <div className="Dashboard-loader" />
                     </div>
-                    <div className="Dashboard-titleArea">
-                        <h2 className="Dashboard-quizTitleFunil">Nome do quiz selecionado</h2>
-                    </div>
-                    <div className="Dashboard-funilArea">
-                        {mountBar()}
-                    </div>
-                    <div className="Dashboard-legendaArea">
-                        {mountLegenda()}
-                    </div>
-                    <p>Quantidade de duplicações neste Quiz: 8</p>
-            </div>
+                :
+                    Object.keys(dashboardData).length > 0 || (inicio || fim) ?
+                        <div className="Dashboard-quizInfo">
+                            <div className="Dashboard-periodoArea">
+                                <input type="date" id="inicio" className="Dashboard-btnPeriodo" onChange={(e) => setInicio(e.target.value)}/>
+                                <input type="date" id="fim" className="Dashboard-btnPeriodo" onChange={(e) => setFim(e.target.value)}/>
+                            </div>
+                            <div className="Dashboard-titleArea">
+                                {
+                                    Object.keys(dashboardData).length === 0 && (inicio || fim) ?
+                                        <h2 className="Dashboard-quizTitleFunil">Sem resultados para esse período</h2>
+                                    :
+                                        <h2 className="Dashboard-quizTitleFunil">{selectedQuiz.nome}</h2>
+                                }
+                            </div>
+                            <div className="Dashboard-funilArea">
+                                {mountBar()}
+                            </div>
+                            <div className="Dashboard-legendaArea">
+                                {mountLegenda()}
+                            </div>
+                            {/* <p>Quantidade de duplicações neste Quiz: 8</p> */}
+                        </div>
+                    :
+                        <div className="Dashboard-quizInfo Dashboard-selectQuiz">
+                            <h3>Selecione um Quiz</h3>
+                        </div>
+            }
         </div>
     );
 };

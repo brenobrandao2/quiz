@@ -1,6 +1,7 @@
 import { CardFinal } from "./cardFinal.repository"
 import { Pergunta } from "./pergunta.repository"
 import { base_url_db } from "../utils/baseUrls"
+import { registerLog } from "./logs.repository"
 
 export class Quiz {
     constructor(_id, nome, titulo, subtitulo, imagem, duplicidade, perguntas, cardFinal, createdAt, lastModified, fluxos, token, listName, listId, apiUrl) {
@@ -91,20 +92,24 @@ export const getById = async (_id) => {
     })
 }
 
-export const deleteById = async (_id) => {
-    console.log(`Excluindo quiz de id = ${_id}`)
+export const deleteById = async (quiz, usuario) => {
+    registerLog(usuario, `Exclusão do quiz "${quiz.nome}"`, JSON.stringify(quiz))
+    console.log(`Excluindo quiz de id = ${quiz._id}`)
+
     const opt = {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ _id })
+        body: JSON.stringify({ _id: quiz._id })
     }
     
     await fetch(`${base_url_db}/quiz/deleteById`, opt).then(async response => console.log(await response.json()))
 }
 
-export const insert = async (quiz) => {
+export const insert = async (quiz, usuario) => {
+    registerLog(usuario, `Criação do quiz "${quiz.nome}"`, JSON.stringify(quiz))
+
     let formData = new FormData()
     if (quiz.imagem)
     formData.append('quizImagem', quiz.imagem)
@@ -124,7 +129,9 @@ export const insert = async (quiz) => {
     await fetch(`${base_url_db}/quiz/insert`, opt).then(async response => {})
 }
 
-export const update = async (quiz) => {
+export const update = async (quiz, usuario) => {
+    registerLog(usuario, `Atualização do quiz "${quiz.nome}"`, JSON.stringify(quiz))
+
     let formData = new FormData()
 
     if (quiz.imagem){

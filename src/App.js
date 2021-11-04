@@ -10,6 +10,7 @@ import Configurations from './pages/Configurations'
 import UsersList from './pages/UsersList'
 import CreateUser from './pages/CreateUser'
 import Dashboard from './pages/Dashboard'
+import Logs from './pages/Logs'
 
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { Helmet, HelmetProvider } from 'react-helmet-async'
@@ -39,6 +40,7 @@ function App() {
             <Route path="/users" exact component={UsersList} />
             <Route path="/create-user" exact component={CreateUser} />
             <Route path="/dashboard" exact component={Dashboard} />
+            <Route path="/logs" exact component={Logs} />
           </div>
         </Router>
       </HelmetProvider>

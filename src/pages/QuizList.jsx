@@ -49,14 +49,14 @@ const QuizList = (props) => {
         setLoading(false)
     }
 
-    const deleteQuiz = async (id) => {
+    const deleteQuiz = async (quiz) => {
         const password = prompt('Digite sua senha para excluir o quiz: ')
         if (password === null) return
         else {
             try {
                 const auth = await checkPassword(user.email, password)
                 if (auth.status) {
-                    await deleteById(id)
+                    await deleteById(quiz, user.email)
                     setListShowQuiz([])
                     reloadQuizList()
                 } else alert('Senha incorreta!')
@@ -96,7 +96,7 @@ const QuizList = (props) => {
                                         <img src={COPY_IMG} alt="copy_img" className="QuizList-iconCopy" />
                                     </button>
                                     <img src={PEN_IMG} alt="pen_img" className="QuizList-icon" onClick={() => props.history.push('create-quiz', { id_quiz: quiz._id })}/>
-                                    <img src={DELETE_IMG} alt="delete_img" className="QuizList-icon" onClick={() => deleteQuiz(quiz._id)}/> 
+                                    <img src={DELETE_IMG} alt="delete_img" className="QuizList-icon" onClick={() => deleteQuiz(quiz)}/> 
                                 </div>
                             </div>
                         )

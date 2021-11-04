@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router'
 import '../css/CreateQuiz.css'
 import '../css/global.css'
+import { useUser } from '../contexts/AuthContext'
 
 import PEN_IMG from '../assets/pen.png'
 import DELETE_IMG from '../assets/delete.png'
@@ -14,6 +15,7 @@ import Tooltip from '../components/Tooltip'
 import { getLists } from '../repository/activeCampaign.repository'
 
 const CreateQuiz = (props) => {
+    const [user, ,] = useUser()
     const [loading, setLoading] = useState(false)
     const [quiz, setQuiz] = useState(new Quiz())
     const [quizName, setQuizName] = useState('')
@@ -27,6 +29,7 @@ const CreateQuiz = (props) => {
     const [availableLists, setAvailableLists] = useState([])
     const [preview, setPreview] = useState()
     const history = useHistory()
+
     
     const [tooltipProps, setTooltipProps] = useState({
         text: '',
@@ -210,8 +213,8 @@ const CreateQuiz = (props) => {
         }
 
         try {
-            if (quiz._id) await update(newQuiz)
-            else await insert(newQuiz)
+            if (quiz._id) await update(newQuiz, user.email)
+            else await insert(newQuiz, user.email)
             setLoading(false)
             history.push('/', { quiz })
         } catch (error) {

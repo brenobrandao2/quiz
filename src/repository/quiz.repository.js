@@ -153,3 +153,56 @@ export const update = async (quiz, usuario) => {
     
     await fetch(`${base_url_db}/quiz/update`, opt).then(async response => console.log(await response.json()))
 }
+
+export const getImages = async () => {
+    const opt = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    }
+
+    let allImages = []
+    try {
+        allImages = await fetch(`${base_url_db}/quiz/getImages`, opt).then(response => response.json())
+    } catch(error) {
+        console.log('Falha ao buscar imagens')
+    }
+    
+    return allImages
+}
+
+export const getImageByType = async (type) => {
+    const opt = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    }
+
+    let allImages = []
+    try {
+        allImages = await fetch(`${base_url_db}/quiz/getImages`, opt).then(response => response.json())
+    } catch(error) {
+        console.log('Falha ao buscar imagens')
+    }
+
+    const image = allImages.find(image => image.tipo === type)
+    
+    return image
+}
+
+export const insertImage = async (logo, favicon) => {
+    let formData = new FormData()
+    if (logo)
+    formData.append('logo', logo)
+    if (favicon)
+    formData.append('favicon', favicon)
+
+    const opt = {
+        method: 'POST',
+        body: formData
+    }
+    
+    await fetch(`${base_url_db}/quiz/insertImage`, opt).then(async response => {})
+}

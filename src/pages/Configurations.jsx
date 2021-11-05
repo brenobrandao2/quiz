@@ -8,6 +8,7 @@ const Configurations = () => {
             <Link className="Configuration-item" to="/users">Gerenciar usuários</Link>
             <Link className="Configuration-item" to="/dashboard">Dashboard</Link>
             <Link className="Configuration-item" to="/logs">Registros</Link>
+            <Link className="Configuration-item" to="/logo">Logo</Link>
         </div>
     );
 };

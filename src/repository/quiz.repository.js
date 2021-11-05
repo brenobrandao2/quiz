@@ -187,7 +187,7 @@ export const getImageByType = async (type) => {
         console.log('Falha ao buscar imagens')
     }
 
-    const image = allImages.find(image => image.tipo === type)
+    const image = allImages && allImages.length > 0 ? allImages.find(image => image.tipo === type) : undefined
     
     return image
 }

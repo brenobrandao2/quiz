@@ -32,8 +32,8 @@ const Logo = () => {
         const setImages = async () => {
             setLoading(true)
             const allImages = await getImages()
-            const logoDoc = allImages.find(image => image.tipo === 'logo')
-            const faviconDoc = allImages.find(image => image.tipo === 'favicon')
+            const logoDoc = allImages && allImages.length > 0 ? allImages.find(image => image.tipo === 'logo') : undefined
+            const faviconDoc = allImages && allImages.length > 0 ? allImages.find(image => image.tipo === 'favicon') : undefined
             
             if (logoDoc) {
                 setLogoPreview(`data:${logoDoc.logo.mimetype};base64,${logoDoc.logo.buffer}`)

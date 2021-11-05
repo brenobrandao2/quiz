@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import './css/App.css'
 import Header from './components/Header'
 import Login from './pages/Login'
@@ -17,8 +18,25 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { Helmet, HelmetProvider } from 'react-helmet-async'
 import { useUser } from './contexts/AuthContext'
 
+import { getImages } from './repository/quiz.repository'
+
 function App() {
   const [user, ,] = useUser()
+  const [favicon, setFavicon] = useState()
+
+  useEffect(() => {
+    const setImages = async () => {
+      const allImages = await getImages()
+      const faviconDoc = allImages && allImages.length > 0 ? allImages.find(image => image.tipo === 'favicon') : ''
+      
+      if (faviconDoc) {
+        setFavicon(`data:${faviconDoc.favicon.mimetype};base64,${faviconDoc.favicon.buffer}`)
+      }
+  }
+
+  setImages()
+  },[])
+  
 
   if (user) {
     console.log('Logged in')
@@ -28,7 +46,7 @@ function App() {
           <div className="App">
             <Helmet>
               <meta charSet="utf-8" />
-              <link rel="icon" type="image/png" href="https://lifeandmoney.com.br/wp-content/uploads/2021/04/Favicon-LM-300x300.png" />
+              <link rel="icon" type="image/png" href={favicon} />
               <title>Life + Money Quiz</title>
             </Helmet>
             <Header />
@@ -55,7 +73,7 @@ function App() {
           <div className="App">
             <Helmet>
               <meta charSet="utf-8" />
-              <link rel="icon" type="image/png" href="https://lifeandmoney.com.br/wp-content/uploads/2021/04/Favicon-LM-300x300.png" />
+              <link rel="icon" type="image/png" href={favicon} />
               <title>Life + Money Quiz</title>
             </Helmet>
             <Header />

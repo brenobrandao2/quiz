@@ -130,8 +130,6 @@ export const insert = async (quiz, usuario) => {
 }
 
 export const update = async (quiz, usuario) => {
-    registerLog(usuario, `Atualização do quiz "${quiz.nome}"`, JSON.stringify(quiz))
-
     let formData = new FormData()
 
     if (quiz.imagem){
@@ -146,6 +144,8 @@ export const update = async (quiz, usuario) => {
     
     formData.append('quiz', JSON.stringify(quiz))
     
+    registerLog(usuario, `Atualização do quiz "${quiz.nome}"`, JSON.stringify(quiz))
+
     const opt = {
         method: 'POST',
         body: formData

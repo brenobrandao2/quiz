@@ -3,7 +3,7 @@ import * as copy from 'copy-to-clipboard'
 
 import '../css/Dashboard.css'
 import COPY_IMG from '../assets/copy.png'
-import { getSimpleList } from '../repository/quiz.repository.js'
+import { getById, getSimpleList } from '../repository/quiz.repository.js'
 import { getQuizMetrics } from '../repository/metric.repository'
 import dayjs from 'dayjs'
 import Tooltip from '../components/Tooltip'
@@ -19,7 +19,7 @@ const Dashboard = (props) => {
     const [fim, setFim] = useState('')
 
     const [dashboardLoading, setDashboardLoading] = useState(false)
-    const [selectedQuiz, setSelectedQuiz] = useState({})
+    const [selectedQuiz, setSelectedQuiz] = useState()
     const [quizMetrics, setQuizMetrics] = useState([])
     const [filteredMetrics, setFilteredMetrics] = useState([])
     const [quizAccess, setQuizAccess] = useState(0)
@@ -66,8 +66,10 @@ const Dashboard = (props) => {
     },[inicio, fim])
 
     const mountBar = () => {
+        let totalAnterior = quizAccess
         return Object.keys(dashboardData).map((key, index) => {
-            const engajamento = ((dashboardData[key].ocorrencias * 100) / quizAccess).toFixed(0)
+            const engajamento = ((dashboardData[key].ocorrencias * 100) / totalAnterior).toFixed(0)
+            // totalAnterior = dashboardData[key].ocorrencias
 
             const customStyle = {
                 width: `${engajamento}%`,
@@ -96,12 +98,14 @@ const Dashboard = (props) => {
 
     const loadQuiz = async (quiz) => {
         setDashboardLoading(true)
-        setSelectedQuiz(quiz)
         
         const quizMetrics = await getQuizMetrics(quiz._id)
         
         setQuizMetrics(quizMetrics)
         getDashboardData(quizMetrics)
+        
+        const completeQuiz = await getById(quiz._id)
+        setSelectedQuiz(completeQuiz[0])
 
         setDashboardLoading(false)
     }
@@ -219,11 +223,11 @@ const Dashboard = (props) => {
                             <div className="Dashboard-legendaArea">
                                 {mountLegenda()}
                             </div>
-                            {/* <p>Quantidade de duplicações neste Quiz: 8</p> */}
+                            <p className="Dashboard-duplicacoes">Quantidade de duplicações do Quiz: {selectedQuiz.duplicidade}</p>
                         </div>
                     :
                         <div className="Dashboard-quizInfo Dashboard-selectQuiz">
-                            <h3>Selecione um Quiz</h3>
+                            <h3>{selectedQuiz ? 'Este Quiz ainda não possui registros' : 'Selecione um Quiz'}</h3>
                         </div>
             }
         </div>

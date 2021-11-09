@@ -19,8 +19,36 @@
     font-size: 14px;
 }
 
+.Logs-tdData {
+    width: 20%;
+    max-width: 40px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.Logs-tdData:hover {
+    text-overflow: clip;
+    white-space: normal;
+    word-break: break-all;
+}
+
+.Logs-tdUsuario {
+    width: 2    0%;
+    max-width: 40px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.Logs-tdUsuario:hover {
+    text-overflow: clip;
+    white-space: normal;
+    word-break: break-all;
+}
+
 .Logs-tdDetalhes {
-    width: 40%;
+    width: 30%;
     max-width: 40px;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -28,6 +56,20 @@
 }
 
 .Logs-tdDetalhes:hover {
+    text-overflow: clip;
+    white-space: normal;
+    word-break: break-all;
+}
+
+.Logs-tdDescricao {
+    width: 30%;
+    max-width: 40px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.Logs-tdDescricao:hover {
     text-overflow: clip;
     white-space: normal;
     word-break: break-all;

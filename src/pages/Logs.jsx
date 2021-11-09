@@ -47,9 +47,9 @@ const Logs = () => {
         return logsToShow.map(log => {
             return(
                 <tr key={log._id}>
-                    <td>{dayjs(log.data).format('MM/DD/YYYY HH:mm:ss')}</td>
-                    <td>{log.usuario}</td>
-                    <td>{log.descricao}</td>
+                    <td className="Logs-tdData">{dayjs(log.data).format('MM/DD/YYYY HH:mm:ss')}</td>
+                    <td className="Logs-tdUsuario">{log.usuario}</td>
+                    <td className="Logs-tdDescricao">{log.descricao}</td>
                     <td className="Logs-tdDetalhes">{log.detalhes}</td>
                 </tr>
             )

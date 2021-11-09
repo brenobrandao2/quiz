@@ -56,3 +56,8 @@
 .Header-logoutIcon:hover {
     cursor: pointer;
 }
+
+.Header-user {
+    position: absolute;
+    right: 8%;
+}

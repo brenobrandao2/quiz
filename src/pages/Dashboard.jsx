@@ -8,7 +8,7 @@ import { getQuizMetrics } from '../repository/metric.repository'
 import dayjs from 'dayjs'
 import Tooltip from '../components/Tooltip'
 import { base_url_client_quiz } from '../utils/baseUrls'
-import { getRandomColor } from '../utils/colors'
+import { funilColors, getRandomColor } from '../utils/colors'
 
 const Dashboard = (props) => {
     const [searchQuizText, setSearchQuizText] = useState('')
@@ -24,6 +24,7 @@ const Dashboard = (props) => {
     const [filteredMetrics, setFilteredMetrics] = useState([])
     const [quizAccess, setQuizAccess] = useState(0)
     const [dashboardData, setDashboardData] = useState({})
+    const [totalLeads, setTotalLeads] = useState(0)
 
     const [tooltipProps, setTooltipProps] = useState({
         text: '',
@@ -86,11 +87,12 @@ const Dashboard = (props) => {
 
     const mountLegenda = () => {
         return Object.keys(dashboardData).map((key, index) => {
+            const text = key === 'Leads' ? key + ` (${totalLeads})` : key
             
             return (
                 <div key={index} className="Dashboard-legendItem">
                     <div className="Dashboard-legendColor" style={{backgroundColor: dashboardData[key].color}}/>
-                    <p className="Dashboard-txtLegend">{key}</p>
+                    <p className="Dashboard-txtLegend">{text}</p>
                 </div>
             )
         })
@@ -134,6 +136,8 @@ const Dashboard = (props) => {
 
     const getDashboardData = (quizMetrics) => {
         let access = 0
+        let totalLeads = 0
+        let colorIndex = 0
 
         const result = quizMetrics.reduce((acc, cur) => {
             if (cur.acesso) {
@@ -141,6 +145,8 @@ const Dashboard = (props) => {
                 return acc
             }
             
+            if (cur.lead) totalLeads++
+
             const key = cur.lead ? 'Leads' : cur.pergunta
 
             acc[key] = acc[key] || {}
@@ -151,8 +157,9 @@ const Dashboard = (props) => {
             acc[key].metricas = acc[key].metricas || []
             acc[key].metricas.push(cur)
 
-            acc[key].color = acc[key].color || getRandomColor()
+            acc[key].color = acc[key].color || funilColors[colorIndex] || getRandomColor()
             
+            colorIndex++
             return acc
         },{})
         
@@ -162,6 +169,7 @@ const Dashboard = (props) => {
             result['Leads'] = leads
         }
         
+        setTotalLeads(totalLeads)
         setDashboardData(result)
         setQuizAccess(access)
     }

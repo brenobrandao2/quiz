@@ -164,7 +164,7 @@ const CreateQuiz = (props) => {
 
     const deleteQuestion = (index) => {
         const newQuiz = updatedQuiz()
-        if (newQuiz.perguntas.length > 2) {
+        if (newQuiz.perguntas.length > 1) {
             if (quiz.fluxos) {
                 const res = window.confirm('Os redirecionamentos já foram definidos. Ao exluir uma pergunta, os fluxos serão recalculados e os redirecionamentos atuais serão excluidos. Deseja continuar?')
                 if (res === true) {

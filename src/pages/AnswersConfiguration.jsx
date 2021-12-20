@@ -58,6 +58,17 @@ const AnswersConfiguration = (props) => {
             }
         }
 
+        const mountSingleQuestionFlows = (allAnswers) => {
+            const answers = allAnswers[0]
+            const flows = []
+          
+            answers.forEach(answer => {
+              flows.push([answer])
+            })
+          
+            return flows
+        }
+
         const configFlows = (allFlows) => {
             const newFlows = {}
 
@@ -75,7 +86,7 @@ const AnswersConfiguration = (props) => {
         }
 
         const allAnswers = mountAnswers(perguntas)
-        const allFlows = mountFlows(allAnswers)
+        const allFlows = allAnswers.length > 1 ? mountFlows(allAnswers) : mountSingleQuestionFlows(allAnswers)
         const configuredFlows = configFlows(allFlows)
 
         setFlows(configuredFlows)

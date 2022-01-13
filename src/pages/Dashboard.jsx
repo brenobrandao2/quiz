@@ -118,7 +118,7 @@ const Dashboard = (props) => {
         const filteredMetrics = quizMetrics.filter(metric => {
             let result = true
 
-            const metricDate = dayjs(metric.data).add(3, 'h')
+            const metricDate = dayjs(metric.data)
             const inicioDate = dayjs(inicio)
             const fimDate = dayjs(fim).set('hour', 23).set('minute', 59).set('second', 59)
 

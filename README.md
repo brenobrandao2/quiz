@@ -33,4 +33,4 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 - Depois de commitar novas implementações na branch master, acesse o servidor e atualize a branch master na pasta do projeto (/var/www/quiz-adm.lifeandmoney.com.br/project/quiz-adm/) com o comando 'git pull'.
 - Em seguida, execute 'npm run build' ainda na pasta do projeto.
-- Agora, copie o conteúdo da pasta build para a pasta html com o seguinte comando 'cp -a build/. /var/www/quiz-adm.lifeandmoney.com/html/'.
+- Agora, copie o conteúdo da pasta build para a pasta html com o seguinte comando 'cp -a build/. /var/www/quiz-adm.lifeandmoney.com.br/html/'.
